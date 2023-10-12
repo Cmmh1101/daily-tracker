@@ -33,7 +33,7 @@
     <div>
         {% for activity in activities %}
         <div class="py-1 px-2 shadow-lg border-l-4 rounded-md bg-gray-50 {% if activity.category == 'professional' %}border-l-blue-500{% endif %}{% if activity.category == 'personal' %}border-l-green-500{% endif %}{% if activity.category == 'development' %} border-l-yellow-500{% endif %}{% if activity.category == 'ministry' %}border-l-red-500{% endif %}{% if activity.category == 'health' %}border-l-purple-500{% endif %}">
-            <a href="" class="flex justify-between">
+            <a href="{% url 'activity' activity.id %}" class="flex justify-between">
             <span>{{ activity.title }}</span>
             <span>{{ activity.created_at }}</span>
             </a>

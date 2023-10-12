@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
@@ -69,6 +69,16 @@ def activities_view(request):
     return render(request, "dashboard/activities.html", {
         'activities': activities
     })
+
+def activity_view(request, activity_id):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse("login"))
+    # get_object_or_404 ensures the activity exists, and that the activity belongs to the currently authenticated user.
+    activity = get_object_or_404(Activity, id=activity_id, user=request.user)
+    return render(request, "dashboard/activity.html", {
+        'activity': activity
+    })
+    
 
 def goals_view(request):
     if not request.user.is_authenticated:
