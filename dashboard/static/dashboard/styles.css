@@ -1,0 +1,36 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    --nav-link: #1E4DE8; 
+    --nav-link: #
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.daily{
+    color: var(--nav-link);
+}
+.daily::first-letter {
+    color: var(--nav-link);
+}
+
+a {
+    color: blue;
+}
+
+a:hover, input[type='submit'] {
+    cursor: pointer;
+}
+
+.side-menu-item {
+    color: var(--nav-link);
+}
+.side-menu-item:hover {
+    color: var(--nav-link);
+}

@@ -1,0 +1,44 @@
+{% extends 'dashboard/layout.html' %}
+{% block body %}
+<div>
+    <div class="flex justify-between items-center flex-wrap mb-5">
+        <h1 class="pl-5 text-blue-700 text-3xl">Activities:</h1>
+        <div>
+            <buton class="">Filter</button>
+            <buton class="ml-2">Sort</button>
+        </div>
+    </div>
+    <div class="flex justify-around items-center flex-wrap mb-5">
+        <div class="flex items-center px-1">
+            <span class="w-3 h-3 rounded-2xl bg-green-500"></span>
+            <span class="text-gray-500 text-sm ml-1">Personal</span>
+        </div>
+        <div class="flex items-center">
+            <span class="w-3 h-3 rounded-2xl bg-yellow-500"></span>
+            <span class="text-gray-500 text-sm ml-1">Development</span>
+        </div>
+        <div class="flex items-center">
+            <span class="w-3 h-3 rounded-2xl bg-blue-500"></span>
+            <span class="text-gray-500 text-sm ml-1">Professional</span>
+        </div>
+        <div class="flex items-center">
+            <span class="w-3 h-3 rounded-2xl bg-red-500"></span>
+            <span class="text-gray-500 text-sm ml-1">Ministry</span>
+        </div>
+        <div class="flex items-center">
+            <span class="w-3 h-3 rounded-2xl bg-purple-500"></span>
+            <span class="text-gray-500 text-sm ml-1">Health</span>
+        </div>
+    </div>
+    <div>
+        {% for activity in activities %}
+        <div class="py-1 px-2 shadow-lg border-l-4 rounded-md bg-gray-50 {% if activity.category == 'professional' %}border-l-blue-500{% endif %}{% if activity.category == 'personal' %}border-l-green-500{% endif %}{% if activity.category == 'development' %} border-l-yellow-500{% endif %}{% if activity.category == 'ministry' %}border-l-red-500{% endif %}{% if activity.category == 'health' %}border-l-purple-500{% endif %}">
+            <a href="" class="flex justify-between">
+            <span>{{ activity.title }}</span>
+            <span>{{ activity.created_at }}</span>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock body %}
