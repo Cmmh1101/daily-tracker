@@ -1,5 +1,14 @@
 {% extends 'dashboard/layout.html' %}
 {% block body %}
+<div>
     <h1 class="pl-5 text-blue-700">Single Activity view</h1>
-    <div>{{ activity.title}}
+    <div>Title: {{ activity.title}}</div>
+    <div>Created: {{ activity.created_at }}</div>
+    {% if activity.updated_at != activity.created_at %}
+    <div>Updated: {{ activity.updated_at }}</div>
+    {% endif %}
+
+    <div>Summary: {{ activity.summary}}</div>
+    <div>Description: {{ activity.description}}</div>
+</div>
 {% endblock body %}
