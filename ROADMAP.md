@@ -128,4 +128,8 @@ admin.site.register(User)
 admin.site.register(Activity)
 admin.site.register(Goal)
 
+# setup a custom 404 view
+
+
+
 

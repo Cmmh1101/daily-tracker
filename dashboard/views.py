@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
-from .models import Activity, User
+from .models import Activity, User, Goal
 
 
 # Create your views here.
@@ -61,15 +61,26 @@ def register(request):
     else:
         return render(request, "dashboard/register.html")
     
+CATEGORY_CHOICES = [
+    ('professional', 'Professional'),
+    ('personal', 'Personal'),
+    ('development', 'Development'),
+    ('spiritual', 'Spiritual'),
+    ('faith', 'Faith'),
+    ('charity', 'Charity'),
+]
+
 def activities_view(request):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
-    # retrieve activities for current user
-    activities = Activity.objects.filter(user=request.user)
+    
+    # Retrieve activities for the current user with linked goals
+    activities = Activity.objects.filter(user=request.user).prefetch_related('linked_goals')
+    
     return render(request, "dashboard/activities.html", {
-        'activities': activities
+        'activities': activities,
+        'categories': CATEGORY_CHOICES,
     })
-
 def activity_view(request, activity_id):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
@@ -86,12 +97,22 @@ def goals_view(request):
     return render(request, "dashboard/goals.html")
 
 def addActivity_view(request):
-    if not request.user.is_authenticated:
-        return HttpResponseRedirect(reverse("login"))
-    return render(request, "dashboard/addActivity.html")
+    if request.method == "POST":
+        title = request.POST["title"]
+        description = request.POST["description"]
+        linked_goal = request.POST["linked_goals"]
+    else:
+        if not request.user.is_authenticated:
+            return HttpResponseRedirect(reverse("login"))
+        goals = Goal.objects.filter(user=request.user)
+        return render(request, "dashboard/addActivity.html", {
+            'goals': goals
+        })
 
 def addGoal_view(request):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
     return render(request, "dashboard/addGoal.html")
 
+def custom_404(request, exception):
+    return render(request, 'dashboard/404.html', status=404)
