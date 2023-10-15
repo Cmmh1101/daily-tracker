@@ -81,6 +81,7 @@ def activities_view(request):
         'activities': activities,
         'categories': CATEGORY_CHOICES,
     })
+
 def activity_view(request, activity_id):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
@@ -96,14 +97,40 @@ def goals_view(request):
         return HttpResponseRedirect(reverse("login"))
     return render(request, "dashboard/goals.html")
 
+from django.shortcuts import render, redirect
+from .models import Activity, Goal
+
 def addActivity_view(request):
     if request.method == "POST":
-        title = request.POST["title"]
-        description = request.POST["description"]
-        linked_goal = request.POST["linked_goals"]
+        title = request.POST.get("title")
+        description = request.POST.get("description")
+        linked_goals = request.POST.getlist("linked_goals")
+
+        if title and description:
+            # Create a new activity
+            activity = Activity(user=request.user, title=title, description=description)
+            activity.save()
+
+            # Add linked goals to the activity
+            for goal_id in linked_goals:
+                try:
+                    goal = Goal.objects.get(id=goal_id)
+                    activity.linked_goals.add(goal)
+                except Goal.DoesNotExist:
+                    # Handle the case where a selected goal does not exist
+                    pass
+
+            return redirect("activities")  # Redirect to the activities page or a success page
+        else:
+            # Handle the case where title and description are not provided
+            return render(request, "dashboard/addActivity.html", {
+                'goals': Goal.objects.filter(user=request.user),
+                'error_message': "Title and description are required fields."
+            })
     else:
         if not request.user.is_authenticated:
-            return HttpResponseRedirect(reverse("login"))
+            return redirect("login")
+
         goals = Goal.objects.filter(user=request.user)
         return render(request, "dashboard/addActivity.html", {
             'goals': goals

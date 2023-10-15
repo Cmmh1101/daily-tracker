@@ -9,17 +9,17 @@
 
             <div class="mb-4">
                 <label for="title" class="block text-gray-600">Title:</label>
-                <input type="text" id="title" name="title" placeholder="Activity title" class="w-full border p-2 rounded">
+                <input type="text" id="title" name="title" placeholder="Activity title" class="w-full border p-2 rounded" required>
             </div>
 
             <div class="mb-4">
                 <label for="description" class="block text-gray-600">Description:</label>
-                <textarea id="description" name="description" placeholder="Activity description" class="w-full border p-2 rounded"></textarea>
+                <textarea id="description" name="description" placeholder="Activity description" class="w-full border p-2 rounded" required></textarea>
             </div>
 
             <div class="mb-4">
                 <label for="linked_goals" class="block text-gray-600">Link to Goal:</label>
-                <select id="linked_goals" name="linked_goals" class="w-full border p-2 rounded">
+                <select id="linked_goals" name="linked_goals" class="w-full border p-2 rounded" required>
                     <option value="" selected>Select a Goal</option>
                     {% for goal in goals %}
                         <option value="{{ goal.id }}">{{ goal.title }}</option>
