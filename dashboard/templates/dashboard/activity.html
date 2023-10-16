@@ -7,7 +7,7 @@
   </div>
   <div>
     <a href="{%url 'editActivity' activity.id %}" class="bg-blue-600 text-white px-2 rounded-sm">Edit</a>
-    <a href="/" class="bg-red-600 text-white px-2 rounded-sm">Delete</a>
+    <a href="{% url "deleteActivity" activity.id %}" class="bg-red-600 text-white px-2 rounded-sm">Delete</a>
   </div>
 </div>
 

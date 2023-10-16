@@ -165,6 +165,15 @@ def edit_activity(request, activity_id):
             "activity": activity,
             "goals": Goal.objects.filter(user=request.user) 
         })
+    
+def delete_activity(request, activity_id):
+    activity = get_object_or_404(Activity, id=activity_id)
+
+    if request.method == 'POST':
+        activity.delete()
+        return redirect('activities') 
+
+    return render(request, 'dashboard/deleteActivity.html', {'activity': activity})
 
 
 def addGoal_view(request):
