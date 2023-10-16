@@ -1,4 +1,4 @@
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
@@ -97,9 +97,6 @@ def goals_view(request):
         return HttpResponseRedirect(reverse("login"))
     return render(request, "dashboard/goals.html")
 
-from django.shortcuts import render, redirect
-from .models import Activity, Goal
-
 def addActivity_view(request):
     if request.method == "POST":
         title = request.POST.get("title")
@@ -135,6 +132,40 @@ def addActivity_view(request):
         return render(request, "dashboard/addActivity.html", {
             'goals': goals
         })
+    
+def edit_activity(request, activity_id):
+    activity = get_object_or_404(Activity, id=activity_id, user=request.user)
+
+    if request.method == 'POST':
+        title = request.POST.get("title")
+        description = request.POST.get("description")
+        linked_goals = request.POST.getlist("linked_goals")
+
+        # update edited activity fields
+        activity.title = title
+        activity.description = description
+        activity.save()
+
+        # add linked goals to activity
+        activity.linked_goals.clear()
+        for goal_id in linked_goals:
+            try:
+                goal = Goal.objects.get(id=goal_id)
+                activity.linked_goals.add(goal)
+            except Goal.DoesNotExist:
+                # Handle the case where a selected goal does not exist
+                pass
+
+        return redirect("activities")
+
+    else:
+        if not request.user.is_authenticated:
+            return redirect("login")
+        return render(request, "dashboard/editActivity.html", {
+            "activity": activity,
+            "goals": Goal.objects.filter(user=request.user) 
+        })
+
 
 def addGoal_view(request):
     if not request.user.is_authenticated:

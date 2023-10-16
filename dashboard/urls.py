@@ -10,5 +10,6 @@ urlpatterns = [
     path("activities/<int:activity_id>", views.activity_view, name="activity"),
     path("goals", views.goals_view, name="goals"),
     path("addActivity", views.addActivity_view, name="addActivity"),
-    path("addGoal", views.addGoal_view, name="addGoal")
+    path("addGoal", views.addGoal_view, name="addGoal"),
+    path("editActivity/<int:activity_id>", views.edit_activity, name="editActivity")
 ]
