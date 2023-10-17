@@ -96,7 +96,22 @@ def activity_view(request, activity_id):
 def goals_view(request):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
-    return render(request, "dashboard/goals.html")
+    
+    goals = Goal.objects.filter(user=request.user)
+    return render(request, "dashboard/goals.html",{
+        'goals': goals,
+        'categories': CATEGORY_CHOICES,
+    })
+
+def goal_view(request, goal_id):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse("login"))
+    
+    goal = get_object_or_404(Goal, id=goal_id, user=request.user)
+    return render(request, "dashboard/goal.html", {
+        'goal': goal
+    })
+    
 
 def addActivity_view(request):
     if not request.user.is_authenticated:

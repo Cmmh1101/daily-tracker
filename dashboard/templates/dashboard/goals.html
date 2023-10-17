@@ -1,4 +1,47 @@
 {% extends 'dashboard/layout.html' %}
+
 {% block body %}
-    <h1 class="pl-5 text-blue-700">Goals view</h1>
+<div>
+    <div class="flex justify-between items-center flex-wrap mb-5">
+        <h1 class="pl-5 text-blue-700 text-3xl">Goals:</h1>
+        <div>
+            <button class="">Filter</button>
+            <button class="ml-2">Sort</button>
+        </div>
+    </div>
+    <div class="flex justify-end items-center flex-wrap mb-5">
+        {% for category in categories %}
+            <div class="flex items-center px-1">
+                <span class="w-3 h-3 rounded-2xl" style="background-color: 
+                    {% if category.0 == 'professional' %}#3498db
+                    {% elif category.0 == 'personal' %}#27ae60
+                    {% elif category.0 == 'development' %}#f39c12
+                    {% elif category.0 == 'spiritual' %}#9b59b6
+                    {% elif category.0 == 'faith' %}#e74c3c
+                    {% elif category.0 == 'charity' %}#f1c40f
+                    {% endif %};">
+                </span>
+                <span class="text-gray-500 text-xs ml-1">{{ category.1|title }}</span>
+            </div>
+        {% endfor %}
+    </div>
+    <a href="{% url 'addGoal' %}" class="text-lg mr-0 bg-blue-600 text-white p-2 rounded-md">New Goal</a>
+    <div>
+        {% for goal in goals %}
+            <div class="py-1 mt-5 px-2 shadow-lg border-l-4 rounded-md" style="border-left-color: 
+                {% if goal.category == 'professional' %}#3498db
+                {% elif goal.category == 'personal' %}#27ae60
+                {% elif goal.category == 'development' %}#f39c12
+                {% elif goal.category == 'spiritual' %}#9b59b6
+                {% elif goal.category == 'faith' %}#e74c3c
+                {% elif goal.category == 'charity' %}#f1c40f
+                {% endif %};">
+                <a href="{% url 'goal' goal.id %}" class="flex justify-between">
+                    <span>{{ goal.title }}</span>
+                    {% comment %} <span>{% if activity.updated_at > activity.created_at %}Updated: {{ activity.updated_at }}{% else %}Created: {{ activity.created_at }}{% endif %}</span> {% endcomment %}
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+</div>
 {% endblock body %}

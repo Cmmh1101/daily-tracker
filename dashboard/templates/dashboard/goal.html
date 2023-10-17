@@ -1,0 +1,23 @@
+{% extends 'dashboard/layout.html' %} {% block body %}
+<div>
+    <div class="flex justify-between">
+  <div>
+    <h1 class="text-xl capitalize">{{ goal.title}}</h1>
+    <span class="text-gray-500">Created: {{ goal.created_at }}</span>
+  </div>
+  <div>
+    {% comment %} <a href="{%url 'editGoal' goal.id %}" class="bg-blue-600 text-white px-2 rounded-sm">Edit</a>
+    <a href="{% url "deleteGoal" goal.id %}" class="bg-red-600 text-white px-2 rounded-sm">Delete</a> {% endcomment %}
+  </div>
+</div>
+
+  {% comment %} {% if activity.updated_at > activity.created_at %}
+  <div>Updated: {{ activity.updated_at }}</div>
+  {% endif %} {% endcomment %}
+  <hr class="my-2" />
+  <div>
+    Description:<br />
+    {{ activity.description}}
+  </div>
+</div>
+{% endblock body %}
