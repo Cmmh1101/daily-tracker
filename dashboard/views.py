@@ -4,7 +4,8 @@ from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
-from .models import Activity, User, Goal
+from dashboard.forms import ActivityForm, GoalForm
+from .models import Activity, User, Goal, TYPE_CHOICES, CATEGORY_CHOICES
 
 
 # Create your views here.
@@ -98,73 +99,49 @@ def goals_view(request):
     return render(request, "dashboard/goals.html")
 
 def addActivity_view(request):
+    if not request.user.is_authenticated:
+            return redirect("login")
     if request.method == "POST":
-        title = request.POST.get("title")
-        description = request.POST.get("description")
-        linked_goals = request.POST.getlist("linked_goals")
-
-        if title and description:
-            # Create a new activity
-            activity = Activity(user=request.user, title=title, description=description)
+        form = ActivityForm(request.POST)
+        if form.is_valid():
+            # Create a new Activity instance and set the user
+            activity = form.save(commit=False)
+            activity.user = request.user
             activity.save()
 
-            # Add linked goals to the activity
-            for goal_id in linked_goals:
-                try:
-                    goal = Goal.objects.get(id=goal_id)
-                    activity.linked_goals.add(goal)
-                except Goal.DoesNotExist:
-                    # Handle the case where a selected goal does not exist
-                    pass
+            # Add the selected goals to the linked_goals field
+            selected_goals = form.cleaned_data.get('linked_goals')
+            activity.linked_goals.set(selected_goals)
 
-            return redirect("activities")  # Redirect to the activities page or a success page
-        else:
-            # Handle the case where title and description are not provided
-            return render(request, "dashboard/addActivity.html", {
-                'goals': Goal.objects.filter(user=request.user),
-                'error_message': "Title and description are required fields."
-            })
+            return redirect('activities')  # Redirect to your activity list view
     else:
-        if not request.user.is_authenticated:
-            return redirect("login")
+        form = ActivityForm()
 
-        goals = Goal.objects.filter(user=request.user)
-        return render(request, "dashboard/addActivity.html", {
-            'goals': goals
-        })
+   
+    return render(request, 'dashboard/addActivity.html', {
+    'form': ActivityForm(),
+    })
     
 def edit_activity(request, activity_id):
+    if not request.user.is_authenticated:
+        return redirect("login")
     activity = get_object_or_404(Activity, id=activity_id, user=request.user)
 
     if request.method == 'POST':
-        title = request.POST.get("title")
-        description = request.POST.get("description")
-        linked_goals = request.POST.getlist("linked_goals")
-
-        # update edited activity fields
-        activity.title = title
-        activity.description = description
-        activity.save()
-
-        # add linked goals to activity
-        activity.linked_goals.clear()
-        for goal_id in linked_goals:
-            try:
-                goal = Goal.objects.get(id=goal_id)
-                activity.linked_goals.add(goal)
-            except Goal.DoesNotExist:
-                # Handle the case where a selected goal does not exist
-                pass
+        form = ActivityForm(request.POST, instance=activity)
+        if form.is_valid():
+            form.save()  # Save the updated form data
 
         return redirect("activities")
 
     else:
-        if not request.user.is_authenticated:
-            return redirect("login")
-        return render(request, "dashboard/editActivity.html", {
-            "activity": activity,
-            "goals": Goal.objects.filter(user=request.user) 
-        })
+        form = ActivityForm(instance=activity)
+
+    
+    return render(request, "dashboard/editActivity.html", {
+        'form': form,
+        'activity': activity,
+    })
     
 def delete_activity(request, activity_id):
     activity = get_object_or_404(Activity, id=activity_id)
@@ -175,11 +152,24 @@ def delete_activity(request, activity_id):
 
     return render(request, 'dashboard/deleteActivity.html', {'activity': activity})
 
-
 def addGoal_view(request):
-    if not request.user.is_authenticated:
-        return HttpResponseRedirect(reverse("login"))
-    return render(request, "dashboard/addGoal.html")
+    if request.method == 'POST':
+        form = GoalForm(request.POST)
+        if form.is_valid():
+            goal = form.save(commit=False)
+            goal.user = request.user  # Associate the goal with the logged-in user
+            goal.save()
+
+            # Redirect to a success page or any other desired action
+            return redirect('goals')  
+    else:
+        form = GoalForm()
+
+    return render(request, 'dashboard/addGoal.html', {
+        'form': form,
+        'TYPE_CHOICES': TYPE_CHOICES,
+        'CATEGORY_CHOICES': CATEGORY_CHOICES,
+        })
 
 def custom_404(request, exception):
     return render(request, 'dashboard/404.html', status=404)

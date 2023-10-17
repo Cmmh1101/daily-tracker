@@ -1,4 +1,55 @@
 {% extends 'dashboard/layout.html' %}
+
 {% block body %}
-    <h1 class="pl-5 text-blue-700">Add new goal view</h1>
+    <h1 class="pl-5 text-blue-700">Create Goal</h1>
+
+    <div class="p-5">
+        <form method="post" action="{% url 'addGoal' %}">
+            {% csrf_token %}
+
+            <div class="mb-4">
+                <label for="title" class="block text-gray-600">Goal:</label>
+                <input type="text" id="title" name="title" placeholder="Goal title" class="w-full border p-2 rounded" required>
+            </div>
+
+            <div class="mb-4">
+                <label for="type" class="block text-gray-600">Type:</label>
+                <select id="type" name="type" class="w-full border p-2 rounded" required>
+                    <option value="" selected>Select a Goal Type</option>
+                    {% for type in TYPE_CHOICES %}
+                        <option value="{{ type.0 }}">{{ type.1 }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="mb-4">
+                <label for="category" class="block text-gray-600">Category:</label>
+                <select id="category" name="category" class="w-full border p-2 rounded" required>
+                    <option value="" selected>Select a Goal Category</option>
+                    {% for category in CATEGORY_CHOICES %}
+                        <option value="{{ category.0 }}">{{ category.1 }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="mb-4">
+                <label for="summary" class="block text-gray-600">I want:</label>
+                <textarea id="summary" name="summary" placeholder="Activity summary" class="w-full border p-2 rounded" required></textarea>
+            </div>
+
+            <div class="mb-4">
+                <label for="description" class="block text-gray-600">Why I want it:</label>
+                <textarea id="description" name="description" placeholder="Activity description" class="w-full border p-2 rounded" required></textarea>
+            </div>
+
+            <div class="mb-4">
+                <label for="actions" class="block text-gray-600">Actions to achieve it:</label>
+                <textarea id="actions" name="actions" placeholder="Activity actions" class="w-full border p-2 rounded" required></textarea>
+            </div>
+
+            
+
+            <input type="submit" value="Add Activity" class="bg-blue-500 text-white py-2 px-4 rounded cursor-pointer">
+        </form>
+    </div>
 {% endblock body %}
