@@ -186,5 +186,26 @@ def addGoal_view(request):
         'CATEGORY_CHOICES': CATEGORY_CHOICES,
         })
 
+def editGoal_view(request, goal_id):
+    goal = get_object_or_404(Goal, id=goal_id)
+
+    if request.method == 'POST':
+        form = GoalForm(request.POST, instance=goal)
+        if form.is_valid():
+            edited_goal = form.save(commit=False)
+            edited_goal.user = request.user
+            edited_goal.save()
+
+            return redirect('goals')
+    else:
+        form = GoalForm(instance=goal)
+
+    return render(request, 'dashboard/editGoal.html', {
+        'form': form,
+        'goal': goal,
+        'TYPE_CHOICES': TYPE_CHOICES,
+        'CATEGORY_CHOICES': CATEGORY_CHOICES,
+    })
+
 def custom_404(request, exception):
     return render(request, 'dashboard/404.html', status=404)

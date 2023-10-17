@@ -13,5 +13,6 @@ urlpatterns = [
     path("addActivity", views.addActivity_view, name="addActivity"),
     path("addGoal", views.addGoal_view, name="addGoal"),
     path("editActivity/<int:activity_id>", views.edit_activity, name="editActivity"),
+    path("editGoal/<int:goal_id>", views.editGoal_view, name="editGoal"),
     path("deleteActivity/<int:activity_id>", views.delete_activity, name="deleteActivity")
 ]

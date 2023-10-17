@@ -1,15 +1,15 @@
 {% extends 'dashboard/layout.html' %}
 
 {% block body %}
-    <h1 class="pl-5 text-blue-700">Create Goal</h1>
+    <h1 class="pl-5 text-blue-700">Edit Goal</h1>
 
     <div class="p-5">
-        <form method="post" action="{% url 'addGoal' %}">
+        <form method="post" action="{% url 'editGoal' goal.id %}">  <!-- Updated action URL for editing -->
             {% csrf_token %}
 
             <div class="mb-4">
                 <label for="title" class="block text-gray-600">Goal:</label>
-                <input type="text" id="title" name="title" placeholder="Goal title" class="w-full border p-2 rounded" required>
+                <input type="text" id="title" name="title" placeholder="Goal title" class="w-full border p-2 rounded" required value="{{ goal.title }}">
             </div>
 
             <div class="mb-4">
@@ -17,7 +17,7 @@
                 <select id="type" name="type" class="w-full border p-2 rounded" required>
                     <option value="" selected>Select a Goal Type</option>
                     {% for type in TYPE_CHOICES %}
-                        <option value="{{ type.0 }}">{{ type.1 }}</option>
+                        <option value="{{ type.0 }}" {% if type.0 == goal.type %}selected{% endif %}>{{ type.1 }}</option>
                     {% endfor %}
                 </select>
             </div>
@@ -27,24 +27,22 @@
                 <select id="category" name="category" class="w-full border p-2 rounded" required>
                     <option value="" selected>Select a Goal Category</option>
                     {% for category in CATEGORY_CHOICES %}
-                        <option value="{{ category.0 }}">{{ category.1 }}</option>
+                        <option value="{{ category.0 }}" {% if category.0 == goal.category %}selected{% endif %}>{{ category.1 }}</option>
                     {% endfor %}
                 </select>
             </div>
 
             <div class="mb-4">
                 <label for="description" class="block text-gray-600">Why I want it:</label>
-                <textarea id="description" name="description" placeholder="Activity description" class="w-full border p-2 rounded" required></textarea>
+                <textarea id="description" name="description" placeholder="Goal description" class="w-full border p-2 rounded" required>{{ goal.description }}</textarea>
             </div>
 
             <div class="mb-4">
                 <label for="actions" class="block text-gray-600">Actions to achieve it:</label>
-                <textarea id="actions" name="actions" placeholder="Activity actions" class="w-full border p-2 rounded" required></textarea>
+                <textarea id="actions" name="actions" placeholder="Goal actions" class="w-full border p-2 rounded" required>{{ goal.actions }}</textarea>
             </div>
 
-            
-
-            <input type="submit" value="Add Activity" class="bg-blue-500 text-white py-2 px-4 rounded cursor-pointer">
+            <input type="submit" value="Save Changes" class="bg-blue-500 text-white py-2 px-4 rounded cursor-pointer">
         </form>
     </div>
 {% endblock body %}

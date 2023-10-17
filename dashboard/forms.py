@@ -23,7 +23,7 @@ class ActivityForm(forms.ModelForm):
 class GoalForm(forms.ModelForm):
     class Meta:
         model = Goal
-        fields = ['title', 'type', 'category', 'summary', 'description', 'actions']
+        fields = ['title', 'type', 'category', 'description', 'actions']
 
     def __init__(self, *args, **kwargs):
         super(GoalForm, self).__init__(*args, **kwargs)
