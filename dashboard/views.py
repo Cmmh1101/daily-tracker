@@ -77,7 +77,7 @@ def activities_view(request):
     filter_category = request.GET.get('category')
     sort_by = request.GET.get('sort')
 
-    activities = Activity.objects.filter(user=request.user).prefetch_related('linked_goals')
+    activities = Activity.objects.filter(user=request.user).prefetch_related('linked_goals').order_by('-created_at')
 
     if filter_category:
         activities = activities.filter(linked_goals__category=filter_category)
