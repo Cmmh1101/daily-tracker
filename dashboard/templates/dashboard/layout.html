@@ -9,6 +9,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     {% tailwind_css %}
     <link rel="stylesheet" href="{% static 'dashboard/styles.css' %}" />
+    {% block script %}{% endblock %}
+
   </head>
   <body>
     <div class="mx-auto">

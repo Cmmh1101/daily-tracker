@@ -66,7 +66,6 @@ CATEGORY_CHOICES = [
     ('professional', 'Professional'),
     ('personal', 'Personal'),
     ('development', 'Development'),
-    ('spiritual', 'Spiritual'),
     ('faith', 'Faith'),
     ('charity', 'Charity'),
 ]
@@ -75,14 +74,24 @@ def activities_view(request):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
     
-    # Retrieve activities for the current user with linked goals
-    activities = Activity.objects.filter(user=request.user).prefetch_related('linked_goals').order_by('-created_at')
-    
+    filter_category = request.GET.get('category')
+    sort_by = request.GET.get('sort')
+
+    activities = Activity.objects.filter(user=request.user).prefetch_related('linked_goals')
+
+    if filter_category:
+        activities = activities.filter(linked_goals__category=filter_category)
+
+    if sort_by:
+        if sort_by == 'oldest':
+            activities = activities.order_by('created_at')
+        elif sort_by == 'newest':
+            activities = activities.order_by('-created_at')
+
     return render(request, "dashboard/activities.html", {
         'activities': activities,
         'categories': CATEGORY_CHOICES,
     })
-
 def activity_view(request, activity_id):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))

@@ -1,49 +1,105 @@
-{% extends 'dashboard/layout.html' %}
+{% extends 'dashboard/layout.html' %} 
+{% block script %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const filterBox = document.querySelector('#filter-box');
+            const filterButton = document.querySelector('#filter');
+            const sortBox = document.querySelector('#sort-box');
+            const sortButton = document.querySelector('#sort');
 
+            sortBox.style.display = 'none';
+            filterBox.style.display = 'none';
+
+            sortButton.addEventListener('click', function() {
+                if (sortBox.style.display === 'block') {
+                    sortBox.style.display = 'none';
+                } else {
+                    sortBox.style.display = 'block';
+                }
+            });
+
+            filterButton.addEventListener('click', function() {
+                if (filterBox.style.display === 'block') {
+                    filterBox.style.display = 'none';
+                } else {
+                    filterBox.style.display = 'block';
+                    filterBox.style.backgroundColor = 'white';
+                }
+            })
+        });
+    </script>
+{% endblock %}
 {% block body %}
 <div>
-    <div class="flex justify-between items-center flex-wrap mb-5">
+    <div class="flex justify-between flex-wrap mb-5">
         <h1 class="pl-5 text-blue-700 text-3xl">Activities:</h1>
-        <div>
-            <button class="">Filter</button>
-            <button class="ml-2">Sort</button>
+        <div class="w-24 h-24 flex flex-col">
+            <div class="flex justify-between">
+                <button id="filter">Filter</button>
+            
+                <button id="sort">Sort by</button>
+            </div>
+            <div id="filter-box" class="flex flex-col text-right">
+                <div class="filter-categories">
+                    <a href="?category=professional&sort={{ request.GET.sort }}">Professional</a>
+                    <a href="?category=personal&sort={{ request.GET.sort }}">Personal</a>
+                    <a href="?category=development&sort={{ request.GET.sort }}">Development</a>
+                    <a href="?category=faith&sort={{ request.GET.sort }}">Faith</a>
+                    <a href="?category=charity&sort={{ request.GET.sort }}">Charity</a>
+                </div>
+            </div>
+            <div id="sort-box" class="flex flex-col text-right">
+                <a href="?sort=oldest&category={{ request.GET.category }}">Oldest</a>
+                <a href="?sort=newest&category={{ request.GET.category }}">Newest</a>
+            </div>
+          
         </div>
-    </div>
-    <div class="flex justify-end items-center flex-wrap mb-5">
-        {% for category in categories %}
-            <div class="flex items-center px-1">
-                <span class="w-3 h-3 rounded-2xl" style="background-color: 
+      </div>
+  <div class="flex justify-end items-center flex-wrap mb-5">
+    {% for category in categories %}
+    <div class="flex items-center px-1">
+      <span
+        class="w-3 h-3 rounded-2xl"
+        style="background-color: 
                     {% if category.0 == 'professional' %}#3498db
                     {% elif category.0 == 'personal' %}#27ae60
                     {% elif category.0 == 'development' %}#f39c12
-                    {% elif category.0 == 'spiritual' %}#9b59b6
                     {% elif category.0 == 'faith' %}#e74c3c
                     {% elif category.0 == 'charity' %}#f1c40f
-                    {% endif %};">
-                </span>
-                <span class="text-gray-500 text-xs ml-1">{{ category.1|title }}</span>
-            </div>
-        {% endfor %}
+                    {% endif %};"
+      >
+      </span>
+      <span class="text-gray-500 text-xs ml-1">{{ category.1|title }}</span>
     </div>
-    <a href="{% url 'addActivity' %}" class="text-lg mr-0 bg-blue-600 text-white p-2 rounded-md">New activity</a>
-    <div>
-        {% for activity in activities %}
+    {% endfor %}
+  </div>
+  <a
+    href="{% url 'addActivity' %}"
+    class="text-lg mr-0 bg-blue-600 text-white p-2 rounded-md"
+    >New activity</a
+  >
+  <div>
+    {% for activity in activities %} 
         {% with linked_goal=activity.linked_goals.first %}
-        <div class="py-1 mt-5 px-2 shadow-lg border-l-4 rounded-md" style="border-left-color: 
+    <div
+      class="py-1 mt-5 px-2 shadow-lg border-l-4 rounded-md"
+      style="border-left-color: 
             {% if linked_goal.category == 'professional' %}#3498db
             {% elif linked_goal.category == 'personal' %}#27ae60
             {% elif linked_goal.category == 'development' %}#f39c12
-            {% elif linked_goal.category == 'spiritual' %}#9b59b6
             {% elif linked_goal.category == 'faith' %}#e74c3c
             {% elif linked_goal.category == 'charity' %}#f1c40f
-            {% endif %};">
-            <a href="{% url 'activity' activity.id %}" class="flex justify-between">
-                <span>{{ activity.title }}</span>
-                <span>{% if activity.updated_at > activity.created_at %}Updated: {{ activity.updated_at }}{% else %}Created: {{ activity.created_at }}{% endif %}</span>
-            </a>
-        </div>
-        {% endwith %}
-        {% endfor %}
+            {% endif %};"
+    >
+      <a href="{% url 'activity' activity.id %}" class="flex justify-between">
+        <span>{{ activity.title }}</span>
+        <span
+          >{{ activity.created_at }}</span
+        >
+      </a>
     </div>
+        {% endwith %} 
+    {% endfor %}
+  </div>
 </div>
 {% endblock body %}

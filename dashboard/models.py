@@ -8,7 +8,6 @@ CATEGORY_CHOICES = [
         ('professional', 'Professional'),
         ('personal', 'Personal'),
         ('development', 'Development'),
-        ('spiritual', 'Spiritual'),
         ('faith', 'Faith'),
         ('charity', 'Charity'),
     ]
