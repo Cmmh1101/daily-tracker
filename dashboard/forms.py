@@ -25,5 +25,18 @@ class GoalForm(forms.ModelForm):
         model = Goal
         fields = ['title', 'type', 'category', 'description', 'actions']
 
-    def __init__(self, *args, **kwargs):
-        super(GoalForm, self).__init__(*args, **kwargs)
+    # Add validation to fields
+    def clean_title(self):
+        title = self.cleaned_data.get('title')
+        if len(title) < 5:
+            raise forms.ValidationError("Title must be at least 5 characters long.")
+        return title
+
+    # Customize widgets with Tailwind CSS classes
+    widgets = {
+        'title': forms.TextInput(attrs={'class': 'w-full bg-blue-500 border p-5 rounded'}),
+        'type': forms.Select(attrs={'class': 'w-full border p-2 rounded'}),
+        'category': forms.Select(attrs={'class': 'w-full border p-2 rounded'}),
+        'description': forms.Textarea(attrs={'class': 'w-full border p-2 rounded'}),
+        'actions': forms.Textarea(attrs={'class': 'w-full border p-2 rounded'}),
+    }

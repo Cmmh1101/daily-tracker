@@ -7,7 +7,7 @@
   </div>
   <div>
     <a href="{%url 'editGoal' goal.id %}" class="bg-blue-600 text-white px-2 rounded-sm">Edit</a>
-    {% comment %} <a href="{% url "deleteGoal" goal.id %}" class="bg-red-600 text-white px-2 rounded-sm">Delete</a> {% endcomment %}
+    <a href="{% url "deleteGoal" goal.id %}" class="bg-red-600 text-white px-2 rounded-sm">Delete</a>
   </div>
 </div>
 
@@ -17,7 +17,7 @@
   <hr class="my-2" />
   <div>
     Description:<br />
-    {{ activity.description}}
+    {{ goal.description}}
   </div>
 </div>
 {% endblock body %}

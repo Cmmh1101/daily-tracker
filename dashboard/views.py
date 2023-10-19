@@ -76,7 +76,7 @@ def activities_view(request):
         return HttpResponseRedirect(reverse("login"))
     
     # Retrieve activities for the current user with linked goals
-    activities = Activity.objects.filter(user=request.user).prefetch_related('linked_goals')
+    activities = Activity.objects.filter(user=request.user).prefetch_related('linked_goals').order_by('-created_at')
     
     return render(request, "dashboard/activities.html", {
         'activities': activities,
@@ -97,7 +97,7 @@ def goals_view(request):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
     
-    goals = Goal.objects.filter(user=request.user)
+    goals = Goal.objects.filter(user=request.user).order_by('-created_at')
     return render(request, "dashboard/goals.html",{
         'goals': goals,
         'categories': CATEGORY_CHOICES,
@@ -132,7 +132,6 @@ def addActivity_view(request):
     else:
         form = ActivityForm()
 
-   
     return render(request, 'dashboard/addActivity.html', {
     'form': ActivityForm(),
     })
@@ -176,15 +175,13 @@ def addGoal_view(request):
             goal.save()
 
             # Redirect to a success page or any other desired action
-            return redirect('goals')  
+            return redirect('goals')
     else:
         form = GoalForm()
 
     return render(request, 'dashboard/addGoal.html', {
         'form': form,
-        'TYPE_CHOICES': TYPE_CHOICES,
-        'CATEGORY_CHOICES': CATEGORY_CHOICES,
-        })
+    })
 
 def editGoal_view(request, goal_id):
     goal = get_object_or_404(Goal, id=goal_id)
@@ -203,9 +200,16 @@ def editGoal_view(request, goal_id):
     return render(request, 'dashboard/editGoal.html', {
         'form': form,
         'goal': goal,
-        'TYPE_CHOICES': TYPE_CHOICES,
-        'CATEGORY_CHOICES': CATEGORY_CHOICES,
     })
+
+def delete_goal(request, goal_id):
+    goal = get_object_or_404(Goal, id=goal_id)
+
+    if request.method == 'POST':
+        goal.delete()
+        return redirect('goals') 
+    else:
+        return render(request, 'dashboard/deleteGoal.html', {'goal': goal})
 
 def custom_404(request, exception):
     return render(request, 'dashboard/404.html', status=404)
