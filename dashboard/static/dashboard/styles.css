@@ -34,3 +34,7 @@ a:hover, input[type='submit'] {
 .side-menu-item:hover {
     color: var(--nav-link);
 }
+
+form {
+    background-color: #1E4DE8!important;
+}
