@@ -78,8 +78,9 @@
     class="text-lg mr-0 bg-blue-600 text-white p-2 rounded-md"
     >New activity</a
   >
-  <div>
-    {% for activity in activities %} 
+  <div class="my-auto">
+    {% if activities %}
+        {% for activity in activities %} 
         {% with linked_goal=activity.linked_goal %}
             <div
             class="py-1 mt-5 px-2 shadow-lg border-l-4 rounded-md"
@@ -97,7 +98,10 @@
             </a>
         </div>
         {% endwith %} 
-    {% endfor %}
+        {% endfor %}
+    {% else %}
+        <p>No records at this time</p>
+    {% endif %}
 </div>
 </div>
 {% endblock body %}

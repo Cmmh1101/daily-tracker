@@ -87,7 +87,7 @@ def activities_view(request):
             activities = activities.order_by('created_at')
         elif sort_by == 'newest':
             activities = activities.order_by('-created_at')
-
+    
     return render(request, "dashboard/activities.html", {
         'activities': activities,
         'categories': CATEGORY_CHOICES,
