@@ -77,10 +77,10 @@ def activities_view(request):
     filter_category = request.GET.get('category')
     sort_by = request.GET.get('sort')
 
-    activities = Activity.objects.filter(user=request.user).prefetch_related('linked_goals').order_by('-created_at')
+    activities = Activity.objects.filter(user=request.user).prefetch_related('linked_goal').order_by('-created_at')
 
     if filter_category:
-        activities = activities.filter(linked_goals__category=filter_category)
+        activities = activities.filter(linked_goal__category=filter_category)
 
     if sort_by:
         if sort_by == 'oldest':
@@ -92,6 +92,7 @@ def activities_view(request):
         'activities': activities,
         'categories': CATEGORY_CHOICES,
     })
+
 def activity_view(request, activity_id):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
@@ -133,11 +134,15 @@ def addActivity_view(request):
             activity.user = request.user
             activity.save()
 
-            # Add the selected goals to the linked_goals field
-            selected_goals = form.cleaned_data.get('linked_goals')
-            activity.linked_goals.set(selected_goals)
+            # Add the selected goals to the linked_goal field
+            goal_id = request.POST.get('linked_goal', None)
+            if goal_id:
+                goal = Goal.objects.get(pk=goal_id)
+                activity.linked_goal = goal
 
-            return redirect('activities')  # Redirect to your activity list view
+            activity.save()
+
+            return redirect('activities')
     else:
         form = ActivityForm()
 

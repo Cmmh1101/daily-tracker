@@ -27,12 +27,12 @@ class Activity(models.Model):
     description = models.TextField()
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(default=timezone.now)
-    linked_goals = models.ManyToManyField('Goal', related_name='linked_activities')
+    linked_goal = models.ForeignKey('Goal', on_delete=models.SET_NULL, null=True, blank=True)
 
     def category(self):
-        # Retrieve the category from the linked goal (assuming there's only one linked goal)
-        if self.linked_goals.exists():
-            return self.linked_goals.first().category
+        # Retrieve the category from the linked goal
+        if self.linked_goal.exists():
+            return self.linked_goal.first().category
         return ""
 
     def __str__(self):

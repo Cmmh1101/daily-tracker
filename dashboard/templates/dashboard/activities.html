@@ -1,32 +1,32 @@
 {% extends 'dashboard/layout.html' %} 
 {% block script %}
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const filterBox = document.querySelector('#filter-box');
-            const filterButton = document.querySelector('#filter');
-            const sortBox = document.querySelector('#sort-box');
-            const sortButton = document.querySelector('#sort');
+    document.addEventListener('DOMContentLoaded', function() {
+        const filterBox = document.querySelector('#filter-box');
+        const filterButton = document.querySelector('#filter');
+        const sortBox = document.querySelector('#sort-box');
+        const sortButton = document.querySelector('#sort');
 
-            sortBox.style.display = 'none';
-            filterBox.style.display = 'none';
+        sortBox.style.display = 'none';
+        filterBox.style.display = 'none';  // Add this line
 
-            sortButton.addEventListener('click', function() {
-                if (sortBox.style.display === 'block') {
-                    sortBox.style.display = 'none';
-                } else {
-                    sortBox.style.display = 'block';
-                }
-            });
-
-            filterButton.addEventListener('click', function() {
-                if (filterBox.style.display === 'block') {
-                    filterBox.style.display = 'none';
-                } else {
-                    filterBox.style.display = 'block';
-                    filterBox.style.backgroundColor = 'white';
-                }
-            })
+        sortButton.addEventListener('click', function() {
+            if (sortBox.style.display === 'block') {
+                sortBox.style.display = 'none';
+            } else {
+                sortBox.style.display = 'block';
+            }
         });
+
+        filterButton.addEventListener('click', function() {
+            if (filterBox.style.display === 'block') {
+                filterBox.style.display = 'none';
+            } else {
+                filterBox.style.display = 'block';
+                filterBox.style.backgroundColor = 'white';
+            }
+        });
+    });
     </script>
 {% endblock %}
 {% block body %}
@@ -80,26 +80,24 @@
   >
   <div>
     {% for activity in activities %} 
-        {% with linked_goal=activity.linked_goals.first %}
-    <div
-      class="py-1 mt-5 px-2 shadow-lg border-l-4 rounded-md"
-      style="border-left-color: 
+        {% with linked_goal=activity.linked_goal %}
+            <div
+            class="py-1 mt-5 px-2 shadow-lg border-l-4 rounded-md"
+            style="border-left-color: 
             {% if linked_goal.category == 'professional' %}#3498db
             {% elif linked_goal.category == 'personal' %}#27ae60
             {% elif linked_goal.category == 'development' %}#f39c12
             {% elif linked_goal.category == 'faith' %}#e74c3c
             {% elif linked_goal.category == 'charity' %}#f1c40f
             {% endif %};"
-    >
-      <a href="{% url 'activity' activity.id %}" class="flex justify-between">
-        <span>{{ activity.title }}</span>
-        <span
-          >{{ activity.created_at }}</span
         >
-      </a>
-    </div>
+            <a href="{% url 'activity' activity.id %}" class="flex justify-between">
+                <span>{{ activity.title }}</span>
+                <span>{{ activity.created_at }}</span>
+            </a>
+        </div>
         {% endwith %} 
     {% endfor %}
-  </div>
+</div>
 </div>
 {% endblock body %}
