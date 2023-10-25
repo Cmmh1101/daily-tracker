@@ -130,6 +130,20 @@ admin.site.register(Goal)
 
 # setup a custom 404 view
 
+# install django-chartjs
+
+pip install django-chartjs
+
+# add in installed apps
+
+```
+INSTALLED_APPS = [
+    # ...
+    'chartjs',
+]
+```
+
+# create a view & template
 
 
 

@@ -1,18 +1,48 @@
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth import authenticate, login, logout
+from django.db.models import Count, F
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from dashboard.forms import ActivityForm, GoalForm
-from .models import Activity, User, Goal, TYPE_CHOICES, CATEGORY_CHOICES
-
+from .models import Activity, User, Goal, CATEGORY_CHOICES
 
 # Create your views here.
 def index(request):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
-    return render(request, "dashboard/index.html")
+    # total categories
+    total_categories = len(CATEGORY_CHOICES)
+    
+    # total goals by category
+    goals_by_category = (
+        Goal.objects.filter(user=request.user).values('category')
+        .annotate(total=Count('category'))
+        .order_by('category')
+    )
+
+    # total activities by category
+    activities_by_category = (
+        Activity.objects.filter(user=request.user).values('linked_goal__category')
+        .annotate(total=Count('linked_goal__category'))
+        .order_by('linked_goal__category')
+    )
+
+    activities_by_goal = (
+        Activity.objects.filter(user=request.user).values('linked_goal__id', 'linked_goal__title')
+        .annotate(total=Count('linked_goal__id'))
+        .order_by('linked_goal__id')
+    )
+
+    context = {
+        'total_categories': total_categories,
+        'goals_by_category': goals_by_category,
+        'activities_by_category': activities_by_category,
+        'activities_by_goal': activities_by_goal
+    }
+
+    return render(request, 'dashboard/index.html', context)
 
 def login_view(request):
     if request.method == "POST":
@@ -96,7 +126,6 @@ def activities_view(request):
 def activity_view(request, activity_id):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
-    # get_object_or_404 ensures the activity exists, and that the activity belongs to the currently authenticated user.
     activity = get_object_or_404(Activity, id=activity_id, user=request.user)
     return render(request, "dashboard/activity.html", {
         'activity': activity
