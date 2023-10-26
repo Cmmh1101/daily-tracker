@@ -258,6 +258,9 @@ def delete_goal(request, goal_id):
         return render(request, 'dashboard/deleteGoal.html', {'goal': goal})
     
 def generate_pdf_report(request, year, month):
+    print("User:", request.user)
+    if not request.user.is_authenticated:
+        return redirect("login")
     # Filter activities based on year and month
     activities = Activity.objects.filter(
         created_at__year=year,
@@ -292,5 +295,7 @@ def generate_pdf_report(request, year, month):
     if pisa_status.err:
         return HttpResponse('We had some errors <pre>' + html + '</pre>')
     return response
+
+
 def custom_404(request, exception):
     return render(request, 'dashboard/404.html', status=404)
