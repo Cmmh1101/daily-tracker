@@ -6,6 +6,9 @@ from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from dashboard.forms import ActivityForm, GoalForm
+from django.template.loader import get_template
+from xhtml2pdf import pisa
+from datetime import datetime
 from .models import Activity, User, Goal, CATEGORY_CHOICES
 
 # Create your views here.
@@ -30,7 +33,7 @@ def index(request):
     )
 
     activities_by_goal = (
-        Activity.objects.filter(user=request.user).values('linked_goal__id', 'linked_goal__title')
+        Activity.objects.filter(user=request.user).values('linked_goal__id', 'linked_goal__title', 'linked_goal__category')
         .annotate(total=Count('linked_goal__id'))
         .order_by('linked_goal__id')
     )
@@ -253,6 +256,41 @@ def delete_goal(request, goal_id):
         return redirect('goals') 
     else:
         return render(request, 'dashboard/deleteGoal.html', {'goal': goal})
+    
+def generate_pdf_report(request, year, month):
+    # Filter activities based on year and month
+    activities = Activity.objects.filter(
+        created_at__year=year,
+        created_at__month=month,
+        user=request.user
+    ).order_by('created_at')
 
+    # Query for categories
+    categories = (
+        Goal.objects.filter(user=request.user).values_list('category', flat=True).distinct()
+    )
+
+    # Render the activities in an HTML template
+    template = get_template('dashboard/pdf_report_template.html')
+
+    # Ensure that the context variables needed by the PDF template are available
+    context = {
+        'activities': activities,
+        'categories': categories,
+        'report_date': datetime.now(),
+    }
+
+    # Render the PDF with the correct context
+    html = template.render(context)
+
+    # Create a PDF response
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename=activity_report_{year}_{month}.pdf'
+
+    # Generate the PDF
+    pisa_status = pisa.CreatePDF(html, dest=response)
+    if pisa_status.err:
+        return HttpResponse('We had some errors <pre>' + html + '</pre>')
+    return response
 def custom_404(request, exception):
     return render(request, 'dashboard/404.html', status=404)

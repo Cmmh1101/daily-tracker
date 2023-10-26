@@ -4,40 +4,14 @@
 {% endblock %}
 
 {% block body %}
+    <h2>Total Goals by Category</h2>
     <canvas id="goalCategoriesChart" width="800" height="400"></canvas>
+    <hr>
+    <h2>Total Activities by Goal:</h2>
     <canvas id="activitiesByGoalsChart" width="800" height="400"></canvas>
 
-<div class="container">
-    <h2>Activities by Category</h2>
-    <div class="">
-       Categories: {{ total_categories }}
-       total goals by category: 
-       <ul>
-        {% for item in goals_by_category %}
-        <li>{{ item.category }}: {{item.total}}</li>
-        {% endfor %}
-       </ul>
-       <hr>
-       <h2>Total Activities by Category:</h2>
-        <ul>
-            {% for item in activities_by_category %}
-            <li>{{ item.linked_goal__category }}: {{ item.total }}</li>
-            {% endfor %}
-        </ul>
-        <hr>
-        <h2>Total Activities by Goal:</h2>
-        <ul>
-            {% for item in activities_by_goal %}
-            <li>
-                {{ item.linked_goal__title }} - Total Activities: {{ item.total }}
-            </li>
-            {% endfor %}
-        </ul>
-
-    </div>
-</div>
 <script>
-    // Desired category colors
+    // category colors
     const categoryColors = {
         'professional': '#3498db',
         'personal': '#27ae60',
@@ -74,19 +48,19 @@
     });
 
     const activityGoals = [
-    {% for item in activities_by_goal %}
-    {
-        name: "{{ item.linked_goal__title }}",
-        count: {{ item.total }},
-        category: "{{ item.linked_goal__category }}",
-    },
-    {% endfor %}
-];
+        {% for item in activities_by_goal %}
+        {
+            name: "{{ item.linked_goal__title }}",
+            count: {{ item.total }},
+            category: "{{ item.linked_goal__category }}",
+        },
+        {% endfor %}
+    ];
 
 // Activities by Goals Chart
 const goalTitles = activityGoals.map(function(goal) { return goal.name; });
 const activityCounts = activityGoals.map(function(goal) { return goal.count; });
-const goalColorsMap = activityGoals.map(function(goal) { return categoryColors[goal.category]; });
+const goalColorsMap = activityGoals.map(function(goal) { return categoryColors[goal.category]; }); // Use category for color mapping
 
 const activitiesByGoalsChart = document.getElementById('activitiesByGoalsChart').getContext('2d');
 const activitiesByGoals = new Chart(activitiesByGoalsChart, {
