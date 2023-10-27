@@ -146,4 +146,21 @@ INSTALLED_APPS = [
 # create a view & template
 
 
+<!-- working pdf -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Activity Report</title>
+    <!-- Add your CSS styles here, including any styling specific for the PDF export -->
+</head>
+<body>
+    <h1>Activity Report for {{ report_date }}</h1>
+    <ul>
+        {% for activity in activities %}
+            <li>{{ activity.title }} - {{ activity.created_at }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
 
