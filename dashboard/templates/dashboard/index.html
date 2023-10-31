@@ -10,7 +10,7 @@
     <h2>Total Activities by Goal:</h2>
     <canvas id="activitiesByGoalsChart" width="800" height="400"></canvas>
 
-<script>
+    <script>
     // category colors
     const categoryColors = {
         'professional': '#3498db',
@@ -57,13 +57,13 @@
         {% endfor %}
     ];
 
-// Activities by Goals Chart
-const goalTitles = activityGoals.map(function(goal) { return goal.name; });
-const activityCounts = activityGoals.map(function(goal) { return goal.count; });
-const goalColorsMap = activityGoals.map(function(goal) { return categoryColors[goal.category]; }); // Use category for color mapping
+    // Activities by Goals Chart
+    const goalTitles = activityGoals.map(function(goal) { return goal.name; });
+    const activityCounts = activityGoals.map(function(goal) { return goal.count; });
+    const goalColorsMap = activityGoals.map(function(goal) { return categoryColors[goal.category]; }); // Use category for color mapping
 
-const activitiesByGoalsChart = document.getElementById('activitiesByGoalsChart').getContext('2d');
-const activitiesByGoals = new Chart(activitiesByGoalsChart, {
+    const activitiesByGoalsChart = document.getElementById('activitiesByGoalsChart').getContext('2d');
+    const activitiesByGoals = new Chart(activitiesByGoalsChart, {
     type: 'bar',
     data: {
         labels: goalTitles,
@@ -82,7 +82,7 @@ const activitiesByGoals = new Chart(activitiesByGoalsChart, {
             }
         }
     }
-});
+    });
 </script>
 
 

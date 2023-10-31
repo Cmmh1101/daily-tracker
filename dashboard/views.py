@@ -257,6 +257,9 @@ def delete_goal(request, goal_id):
     else:
         return render(request, 'dashboard/deleteGoal.html', {'goal': goal})
     
+def generate_report_view(request):
+    return render(request, "dashboard/generateReport.html")
+    
 def generate_pdf_report(request, year, month):
     print("User:", request.user)
     if not request.user.is_authenticated:

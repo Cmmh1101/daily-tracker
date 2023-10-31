@@ -1,0 +1,7 @@
+{% extends 'dashboard/layout.html' %} 
+
+{% block body %}
+    <h1>Generate report page</h1>
+    <hr>
+    <a href="{% url 'generate_pdf_report' year=2023 month=10 %}">Export PDF Report for October 2023</a>
+{% endblock body %}

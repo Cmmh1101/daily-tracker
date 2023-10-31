@@ -40,3 +40,8 @@ class GoalForm(forms.ModelForm):
         'description': forms.Textarea(attrs={'class': 'w-full border p-2 rounded'}),
         'actions': forms.Textarea(attrs={'class': 'w-full border p-2 rounded'}),
     }
+
+class DateSelectionForm(forms.Form):
+    year = forms.IntegerField(label='Year', required='False', widget=forms.SelectDateWidget(years=range(2023, 2030)))
+    month = forms.IntegerField(label='Month', required='False', widget=forms.SelectDateWidget(months={1: 'January', 2: 'February', 3: 'March', 4: 'April', 5: 'May', 6: 'June', 7: 'July', 8: 'August', 9: 'September', 10: 'October', 11: 'November', 12: 'December'}, required=False))
+    day = forms.IntegerField(label='Day', required=False)
