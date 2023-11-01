@@ -3,9 +3,9 @@ from django.contrib.auth import authenticate, login, logout
 from django.db.models import Count, F
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
 from django.urls import reverse
-from dashboard.forms import ActivityForm, GoalForm
+from dashboard.forms import ActivityForm, DateSelectionForm, GoalForm
 from django.template.loader import get_template
 from xhtml2pdf import pisa
 from datetime import datetime
@@ -257,47 +257,69 @@ def delete_goal(request, goal_id):
     else:
         return render(request, 'dashboard/deleteGoal.html', {'goal': goal})
     
-def generate_report_view(request):
-    return render(request, "dashboard/generateReport.html")
+# def generate_report_view(request):
+#     return render(request, "dashboard/generateReport.html")
     
-def generate_pdf_report(request, year, month):
-    print("User:", request.user)
+def generate_pdf_report(request):
     if not request.user.is_authenticated:
         return redirect("login")
-    # Filter activities based on year and month
-    activities = Activity.objects.filter(
-        created_at__year=year,
-        created_at__month=month,
-        user=request.user
-    ).order_by('created_at')
+    
+    if request.method == 'POST':
+        form = DateSelectionForm(request.POST)
+        if form.is_valid():
+            year = form.cleaned_data['year']
+            month = form.cleaned_data['month']
+            day = form.cleaned_data['day']
+            category = form.cleaned_data['category']
 
-    # Query for categories
-    categories = (
-        Goal.objects.filter(user=request.user).values_list('category', flat=True).distinct()
-    )
+            activities = Activity.objects.filter(user=request.user, created_at__year=year)
 
-    # Render the activities in an HTML template
-    template = get_template('dashboard/pdf_report_template.html')
+            if month is not None:
+                activities = activities.filter(created_at__month=month)
 
-    # Ensure that the context variables needed by the PDF template are available
-    context = {
-        'activities': activities,
-        'categories': categories,
-        'report_date': datetime.now(),
-    }
+            if day is not None: 
+                activities = activities.filter(created_at__month=month, created_at__day=day)
+            
+            if category:
+                activities = activities.filter(linked_goal__category=category)
 
-    # Render the PDF with the correct context
-    html = template.render(context)
+            activities = activities.order_by('created_at')
 
-    # Create a PDF response
-    response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = f'attachment; filename=activity_report_{year}_{month}.pdf'
+            if not year:
+                return HttpResponseNotFound("Year is required.")
 
-    # Generate the PDF
-    pisa_status = pisa.CreatePDF(html, dest=response)
-    if pisa_status.err:
-        return HttpResponse('We had some errors <pre>' + html + '</pre>')
-    return response
+            filename = f'activity_report_{year}'
+            if month:
+                filename += f'_{month:02d}'
+            if day:
+                filename += f'_{day:02d}'
+            if category:
+                filename += f'_{category}'
+            filename += '.pdf'
+
+            # Render the PDF with context using the PDF template
+            template = get_template('dashboard/pdf_report_template.html')
+
+            context = {
+                'activities': activities,
+                'report_date': datetime(year, month or 1, day or 1),
+                'category': category
+            }
+            html = template.render(context)
+
+            # create pdf response
+            response = HttpResponse(content_type='application/pdf')
+            response['Content-Disposition'] = f'attachment; filename={filename}'
+
+            # Generate the PDF
+            pisa_status = pisa.CreatePDF(html, dest=response)
+            if pisa_status.err:
+                return HttpResponse('We had some errors <pre>' + html + '</pre>')
+            return response
+    else:
+        form = DateSelectionForm()
+    
+    return render(request, 'dashboard/generateReport.html', {'form': form})
 
 
 def custom_404(request, exception):

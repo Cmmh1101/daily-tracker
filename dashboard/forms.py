@@ -1,5 +1,5 @@
 from django import forms
-from .models import Activity, Goal
+from .models import CATEGORY_CHOICES, Activity, Goal
 
 class ActivityForm(forms.ModelForm):
     class Meta:
@@ -42,6 +42,7 @@ class GoalForm(forms.ModelForm):
     }
 
 class DateSelectionForm(forms.Form):
-    year = forms.IntegerField(label='Year', required='False', widget=forms.SelectDateWidget(years=range(2023, 2030)))
-    month = forms.IntegerField(label='Month', required='False', widget=forms.SelectDateWidget(months={1: 'January', 2: 'February', 3: 'March', 4: 'April', 5: 'May', 6: 'June', 7: 'July', 8: 'August', 9: 'September', 10: 'October', 11: 'November', 12: 'December'}, required=False))
+    year = forms.IntegerField(label='Year')
+    month = forms.IntegerField(label='Month', required=False)
     day = forms.IntegerField(label='Day', required=False)
+    category = forms.ChoiceField(choices=CATEGORY_CHOICES, required=False)

@@ -3,5 +3,12 @@
 {% block body %}
     <h1>Generate report page</h1>
     <hr>
-    <a href="{% url 'generate_pdf_report' year=2023 month=10 %}">Export PDF Report for October 2023</a>
+    <form method="post">
+        {% csrf_token %}
+    {{ form.year.label_tag }} {{ form.year }}
+    {{ form.month.label_tag }} {{ form.month }}
+    {{ form.day.label_tag }} {{ form.day }}
+    {{ form.category.label_tag }} {{ form.category }}
+    <button type="submit">Generate PDF</button>
+    </form>
 {% endblock body %}
