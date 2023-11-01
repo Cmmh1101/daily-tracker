@@ -45,4 +45,8 @@ class DateSelectionForm(forms.Form):
     year = forms.IntegerField(label='Year')
     month = forms.IntegerField(label='Month', required=False)
     day = forms.IntegerField(label='Day', required=False)
-    category = forms.ChoiceField(choices=CATEGORY_CHOICES, required=False)
+    category = forms.MultipleChoiceField(
+        choices=CATEGORY_CHOICES,
+        widget=forms.CheckboxSelectMultiple,
+        required=False,
+    )

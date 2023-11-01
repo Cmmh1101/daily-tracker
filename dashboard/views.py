@@ -270,7 +270,7 @@ def generate_pdf_report(request):
             year = form.cleaned_data['year']
             month = form.cleaned_data['month']
             day = form.cleaned_data['day']
-            category = form.cleaned_data['category']
+            categories = form.cleaned_data.get('category', [])
 
             activities = Activity.objects.filter(user=request.user, created_at__year=year)
 
@@ -280,8 +280,8 @@ def generate_pdf_report(request):
             if day is not None: 
                 activities = activities.filter(created_at__month=month, created_at__day=day)
             
-            if category:
-                activities = activities.filter(linked_goal__category=category)
+            if categories:
+                activities = activities.filter(linked_goal__category__in=categories)
 
             activities = activities.order_by('created_at')
 
@@ -293,8 +293,9 @@ def generate_pdf_report(request):
                 filename += f'_{month:02d}'
             if day:
                 filename += f'_{day:02d}'
-            if category:
-                filename += f'_{category}'
+            if categories:
+                for category in categories:
+                    filename += f'_{category}'
             filename += '.pdf'
 
             # Render the PDF with context using the PDF template
@@ -303,7 +304,7 @@ def generate_pdf_report(request):
             context = {
                 'activities': activities,
                 'report_date': datetime(year, month or 1, day or 1),
-                'category': category
+                'categories': categories
             }
             html = template.render(context)
 
