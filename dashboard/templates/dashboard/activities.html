@@ -73,11 +73,10 @@
     </div>
     {% endfor %}
   </div>
-  <a
-    href="{% url 'addActivity' %}"
-    class="text-lg mr-0 bg-blue-600 text-white p-2 rounded-md"
-    >New activity</a
-  >
+  <a href="{% url 'addActivity' %}"
+    class="text-lg mr-0 bg-blue-600 text-white p-2 rounded-md">
+        New activity
+    </a>
   <div class="my-auto">
     {% if activities %}
         {% for activity in activities %} 
