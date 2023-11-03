@@ -1,14 +1,23 @@
 {% extends 'dashboard/layout.html' %} 
 
 {% block body %}
-    <h1>Generate report page</h1>
-    <hr>
-    <form method="post">
+    <h1 class="text-blue-700 text-3xl">Generate report</h1>
+    <form class="p-5" method="post" class="report-form my-3">
         {% csrf_token %}
-    {{ form.year.label_tag }} {{ form.year }}
-    {{ form.month.label_tag }} {{ form.month }}
-    {{ form.day.label_tag }} {{ form.day }}
-    {{ form.category.label_tag }} {{ form.category }}
-    <button type="submit">Generate PDF</button>
+        <div class="flex flex-wrap my-3">
+            <div class="flex flex-col w-24 mr-2">
+                {{ form.year.label_tag }} {{ form.year }}
+            </div>
+            <div class="flex flex-col w-24 mr-2">
+                {{ form.month.label_tag }} {{ form.month }}
+            </div>
+            <div class="flex flex-col w-24 mr-2">
+                {{ form.day.label_tag }} {{ form.day }}
+            </div>
+        </div>
+        <div>
+            {{ form.category.label_tag }} {{ form.category }}
+        </div>
+    <button type="submit" class="mt-5 bg-blue-500 text-white py-2 px-4 rounded cursor-pointer">Generate PDF</button>
     </form>
 {% endblock body %}

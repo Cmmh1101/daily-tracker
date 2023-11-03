@@ -42,9 +42,23 @@ class GoalForm(forms.ModelForm):
     }
 
 class DateSelectionForm(forms.Form):
-    year = forms.IntegerField(label='Year')
-    month = forms.IntegerField(label='Month', required=False)
-    day = forms.IntegerField(label='Day', required=False)
+    year = forms.IntegerField(
+        label='Year', 
+        widget=forms.NumberInput(attrs={'placeholder': 'YYYY'})
+        )
+    
+    month = forms.IntegerField(
+        label='Month', 
+        required=False,
+        widget=forms.NumberInput(attrs={'placeholder': 'MM'})
+        )
+    
+    day = forms.IntegerField(
+        label='Day', 
+        required=False,
+        widget=forms.NumberInput(attrs={'placeholder': 'DD'})
+        )
+    
     category = forms.MultipleChoiceField(
         choices=CATEGORY_CHOICES,
         widget=forms.CheckboxSelectMultiple,
