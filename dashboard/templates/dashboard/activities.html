@@ -1,4 +1,4 @@
-{% extends 'dashboard/layout.html' %} 
+{% extends 'base.html' %}
 {% block script %}
     <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -77,12 +77,13 @@
     class="text-lg mr-0 bg-blue-600 text-white p-2 rounded-md">
         New activity
     </a>
-  <div class="my-auto">
+  <div class="my-auto w-full">
+    <div class="my-auto  h-64">
     {% if activities %}
         {% for activity in activities %} 
         {% with linked_goal=activity.linked_goal %}
             <div
-            class="py-1 mt-5 px-2 shadow-lg border-l-4 rounded-md"
+            class="mt-5 shadow-lg border-l-4 rounded-md grid grid-cols-2"
             style="border-left-color: 
             {% if linked_goal.category == 'professional' %}#3498db
             {% elif linked_goal.category == 'personal' %}#27ae60
@@ -91,7 +92,7 @@
             {% elif linked_goal.category == 'charity' %}#f1c40f
             {% endif %};"
         >
-            <a href="{% url 'activity' activity.id %}" class="flex justify-between">
+            <a href="{% url 'activity' activity.id %}" class="flex justify-between  h-full p-3">
                 <span>{{ activity.title }}</span>
                 <span>{{ activity.created_at }}</span>
             </a>

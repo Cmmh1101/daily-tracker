@@ -1,4 +1,4 @@
-{% extends 'dashboard/layout.html' %}
+{% extends 'base.html' %}
 
 {% block body %}
 <div>
@@ -35,7 +35,12 @@
                 {% elif goal.category == 'charity' %}#f1c40f
                 {% endif %};">
                 <a href="{% url 'goal' goal.id %}" class="flex justify-between">
-                    <span>{{ goal.title }}</span>
+                    <span>
+                        {{ goal.title }}
+                    </span>
+                    <span>
+                        {{ goal.target_date }}
+                    </span>
                     {% comment %} <span>{% if activity.updated_at > activity.created_at %}Updated: {{ activity.updated_at }}{% else %}Created: {{ activity.created_at }}{% endif %}</span> {% endcomment %}
                 </a>
             </div>

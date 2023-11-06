@@ -21,9 +21,15 @@ class ActivityForm(forms.ModelForm):
     }
 
 class GoalForm(forms.ModelForm):
+    target_date = forms.DateField(
+        label='Target Date',
+        widget=forms.DateInput(attrs={'type': 'date'}),
+        required=False
+    )
+
     class Meta:
         model = Goal
-        fields = ['title', 'type', 'category', 'description', 'actions']
+        fields = ['title', 'type', 'category', 'description', 'actions', 'target_date']
 
     # Add validation to fields
     def clean_title(self):

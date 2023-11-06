@@ -1,9 +1,7 @@
 {% extends "dashboard/layout.html" %}
 
 {% block auth %}
-
     <h2>Register</h2>
-
     {% if message %}
         <div>{{ message }}</div>
     {% endif %}
@@ -24,7 +22,5 @@
         </div>
         <input class="bg-blue-300 w-full mb-3 py-1 px-3 rounded-sm" type="submit" value="Register">
     </form>
-
     Already have an account? <a href="{% url 'login' %}" class="text-gray-500 hover:underline">Log In here.</a>
-
 {% endblock %}
