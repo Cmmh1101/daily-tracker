@@ -25,7 +25,7 @@
         {% endfor %}
     </div>
     <a href="{% url 'addGoal' %}" class="text-lg mr-0 bg-blue-600 text-white p-2 rounded-md">New Goal</a>
-    <div>
+    <div class="my-5 h-64 grid grid-cols-2 gap-5">
         {% for goal in goals %}
             <div class="py-1 mt-5 px-2 shadow-lg border-l-4 rounded-md" style="border-left-color: 
                 {% if goal.category == 'professional' %}#3498db
