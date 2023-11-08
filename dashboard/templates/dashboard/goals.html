@@ -20,7 +20,7 @@
             {% endfor %}
         </div>
     </div>
-    
+
     <a href="{% url 'addGoal' %}" class="text-lg mr-0 bg-blue-600 text-white p-2 rounded-md">New Goal</a>
     <div class="my-5 h-64 grid grid-cols-2 gap-5">
         {% for goal in goals %}
@@ -33,7 +33,19 @@
                 {% endif %};">
                 <a href="{% url 'goal' goal.id %}" class="flex justify-between flex-col p-3">
                     <h3 class="text-md capitalize text-blue-950 font-bold">{{ goal.title }}</h3>
-                <p class="text-sm">Target Date: <span class="text-gray-700 italic">{{ goal.target_date }}</span></p>
+                    <p class="text-sm">Target Date: <span class="text-gray-700 italic">{{ goal.target_date }}</span></p>
+                    
+                    <!-- Display dots based on the total number of activities -->
+                    {% for activity in activities_by_goal %}
+                        {% if activity.linked_goal__id == goal.id %}
+                            <div class="flex flex-wrap">
+                            Activities logged: {{activity.total}}
+                            {% for dot in ""|rjust:activity.total %}
+                            {{activity.total}}
+                            {% endfor %}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
                 </a>
             </div>
         {% endfor %}

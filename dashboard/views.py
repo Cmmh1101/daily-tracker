@@ -140,9 +140,16 @@ def goals_view(request):
         return HttpResponseRedirect(reverse("login"))
     
     goals = Goal.objects.filter(user=request.user).order_by('-created_at')
+
+    activities_by_goal = (
+        Activity.objects.filter(user=request.user).values('linked_goal__id', 'linked_goal__title', 'linked_goal__category')
+        .annotate(total=Count('linked_goal__id'))
+        .order_by('linked_goal__id')
+    )
     return render(request, "dashboard/goals.html",{
         'goals': goals,
         'categories': CATEGORY_CHOICES,
+        'activities_by_goal': activities_by_goal,
     })
 
 def goal_view(request, goal_id):
