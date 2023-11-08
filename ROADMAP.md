@@ -164,3 +164,9 @@ INSTALLED_APPS = [
 </body>
 </html>
 
+## Troubleshooting postgres connection if port in use error
+- Run this command to check postgres is the one in use of the port
+> $ sudo lsof -i :5432
+
+- Run this command to kill postgres 
+> $ sudo pkill -u postgres
