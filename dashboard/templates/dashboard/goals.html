@@ -22,29 +22,32 @@
     </div>
 
     <a href="{% url 'addGoal' %}" class="text-lg mr-0 bg-blue-600 text-white p-2 rounded-md">New Goal</a>
-    <div class="my-5 h-64 grid grid-cols-2 gap-5">
+    <div class="my-5 md:grid md:grid-cols-2 md:gap-5">
         {% for goal in goals %}
-            <div class="shadow-lg bg-gray-100 border-l-8 rounded-md" style="border-left-color: 
+            <div class="shadow-lg bg-gray-100 border-l-8 rounded-md my-3 md:my-0" style="border-left-color: 
                 {% if goal.category == 'professional' %}#3498db
                 {% elif goal.category == 'personal' %}#27ae60
                 {% elif goal.category == 'development' %}#f39c12
                 {% elif goal.category == 'faith' %}#e74c3c
                 {% elif goal.category == 'financial' %}#f1c40f
                 {% endif %};">
-                <a href="{% url 'goal' goal.id %}" class="flex justify-between flex-col p-3">
+                <a href="{% url 'goal' goal.id %}" class="flex  flex-col p-3">
                     <h3 class="text-md capitalize text-blue-950 font-bold">{{ goal.title }}</h3>
+                    {% if goal.target_date %}
                     <p class="text-sm">Target Date: <span class="text-gray-700 italic">{{ goal.target_date }}</span></p>
-                    
-                    <!-- Display dots based on the total number of activities -->
+                    {% else %}
+                        No target date set
+                    {% endif %}
                     {% for activity in activities_by_goal %}
                         {% if activity.linked_goal__id == goal.id %}
                             <div class="flex flex-wrap">
-                            Activities logged: {{activity.total}}
-                            {% for dot in ""|rjust:activity.total %}
-                            {{activity.total}}
-                            {% endfor %}
+                                Activities logged: {{activity.total}}
                             </div>
                         {% endif %}
+                        {% empty %}
+                <div class="text-red-500">
+                    No activities logged yet
+                </div>
                     {% endfor %}
                 </a>
             </div>
