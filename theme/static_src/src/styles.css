@@ -7,13 +7,6 @@
     --accent-color: #38067a;
 }
 
-.daily{
-    color: var(--nav-link);
-}
-.daily::first-letter {
-    color: var(--accent-color);
-}
-
 a {
     color: blue;
 }

@@ -100,7 +100,7 @@ CATEGORY_CHOICES = [
     ('personal', 'Personal'),
     ('development', 'Development'),
     ('faith', 'Faith'),
-    ('charity', 'Charity'),
+    ('financial', 'Financial'),
 ]
 
 def activities_view(request):

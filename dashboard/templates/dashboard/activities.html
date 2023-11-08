@@ -42,7 +42,7 @@
                             {% elif category.0 == 'personal' %}#27ae60
                             {% elif category.0 == 'development' %}#f39c12
                             {% elif category.0 == 'faith' %}#e74c3c
-                            {% elif category.0 == 'charity' %}#f1c40f
+                            {% elif category.0 == 'financial' %}#f1c40f
                             {% endif %};"
               >
               </span>
@@ -71,7 +71,7 @@
                 <a href="?category=personal&sort={{ request.GET.sort }}">Personal</a>
                 <a href="?category=development&sort={{ request.GET.sort }}">Development</a>
                 <a href="?category=faith&sort={{ request.GET.sort }}">Faith</a>
-                <a href="?category=charity&sort={{ request.GET.sort }}">Charity</a>
+                <a href="?category=financial&sort={{ request.GET.sort }}">Financial</a>
             </div>
         </div>
         <div id="sort-box" class="text-center w-36 bg-white p-3">
@@ -94,7 +94,7 @@
             {% elif linked_goal.category == 'personal' %}#27ae60
             {% elif linked_goal.category == 'development' %}#f39c12
             {% elif linked_goal.category == 'faith' %}#e74c3c
-            {% elif linked_goal.category == 'charity' %}#f1c40f
+            {% elif linked_goal.category == 'financial' %}#f1c40f
             {% endif %};"
         >
             <a href="{% url 'activity' activity.id %}" class="flex justify-between flex-col p-3">

@@ -5,17 +5,17 @@ from django.utils import timezone
 # Create your models here.
 
 CATEGORY_CHOICES = [
-        ('professional', 'Professional'),
-        ('personal', 'Personal'),
-        ('development', 'Development'),
-        ('faith', 'Faith'),
-        ('charity', 'Charity'),
-    ]
+    ('faith', 'Faith'),
+    ('financial', 'Financial'),
+    ('personal', 'Personal'),
+    ('development', 'Development'),
+    ('professional', 'Professional'),
+]
 
 TYPE_CHOICES = [
-        ('long_term', 'Long Term'),
-        ('mid_term', 'Mid Term'),
-        ('weekly', 'Weekly'),
+        ('long_term', 'Long Term (5-20 years)'),
+        ('mid_term', 'Mid Term (1-5 years)'),
+        ('short_term', 'Short Term (< 12 Months)'),
     ]
 
 class User(AbstractUser):

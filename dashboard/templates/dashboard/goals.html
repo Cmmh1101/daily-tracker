@@ -12,7 +12,7 @@
                         {% elif category.0 == 'personal' %}#27ae60
                         {% elif category.0 == 'development' %}#f39c12
                         {% elif category.0 == 'faith' %}#e74c3c
-                        {% elif category.0 == 'charity' %}#f1c40f
+                        {% elif category.0 == 'financial' %}#f1c40f
                         {% endif %};">
                     </span>
                     <span class="text-gray-500 text-xs ml-1">{{ category.1|title }}</span>
@@ -29,7 +29,7 @@
                 {% elif goal.category == 'personal' %}#27ae60
                 {% elif goal.category == 'development' %}#f39c12
                 {% elif goal.category == 'faith' %}#e74c3c
-                {% elif goal.category == 'charity' %}#f1c40f
+                {% elif goal.category == 'financial' %}#f1c40f
                 {% endif %};">
                 <a href="{% url 'goal' goal.id %}" class="flex justify-between flex-col p-3">
                     <h3 class="text-md capitalize text-blue-950 font-bold">{{ goal.title }}</h3>
