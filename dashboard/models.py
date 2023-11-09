@@ -18,6 +18,12 @@ TYPE_CHOICES = [
         ('short_term', 'Short Term (< 12 Months)'),
     ]
 
+STATUS_CHOICES = [
+    ('Not Started', 'Not Started'),
+    ('In Progress', 'In Progress'),
+    ('Achieved', 'Achieved'),
+]
+
 class User(AbstractUser):
     pass
 
@@ -39,7 +45,6 @@ class Activity(models.Model):
         return self.title
 
 class Goal(models.Model):
-
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='activities')
     title = models.CharField(max_length=255)
     type = models.CharField(max_length=20, choices=TYPE_CHOICES)
@@ -49,6 +54,7 @@ class Goal(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     target_date = models.DateTimeField(null=True)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Not Started')
 
     def __str__(self):
         return self.title

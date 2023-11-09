@@ -1,4 +1,5 @@
-{% extends 'base.html' %} 
+{% extends 'base.html' %}
+{% load icons%}
 {% block body %}
 <div>
     <div class="flex justify-between">
@@ -7,7 +8,7 @@
     <span class="text-gray-500">Created: {{ activity.created_at }}</span>
   </div>
   <div>
-    <a href="{%url 'editActivity' activity.id %}" class="bg-blue-600 text-white px-2 py-1 rounded-sm">Edit</a>
+    <a href="{%url 'editActivity' activity.id %}" class="bg-blue-600 text-white px-2 py-1 rounded-sm"><i class="fas fa-edit"></i>Edit{% icon 'edit' %}</a>
     <a href="{% url "deleteActivity" activity.id %}" class="bg-red-600 text-white px-2 rounded-sm py-1">Delete</a>
   </div>
 </div>

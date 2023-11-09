@@ -31,7 +31,8 @@
                 {% elif goal.category == 'faith' %}#e74c3c
                 {% elif goal.category == 'financial' %}#f1c40f
                 {% endif %};">
-                <a href="{% url 'goal' goal.id %}" class="flex  flex-col p-3">
+                <a href="{% url 'goal' goal.id %}" class="flex p-3">
+                    <div>
                     <h3 class="text-md capitalize text-blue-950 font-bold">{{ goal.title }}</h3>
                     {% if goal.target_date %}
                     <p class="text-sm">Target Date: <span class="text-gray-700 italic">{{ goal.target_date }}</span></p>
@@ -48,7 +49,18 @@
                 <div class="text-red-500">
                     No activities logged yet
                 </div>
+            </div>
                     {% endfor %}
+        </div>
+        <div>
+            {% if goal.status == "Not Started"%}
+            <p>nope {{goal.status}}</p>
+            {% elif goal.status == "In Progress"%}
+            <p>prog {{goal.status}}</p>
+            {% elif goal.status == "Achieved"%}
+            <p>done {{goal.status}}</p>
+            {% endif %}
+        </div>
                 </a>
             </div>
         {% endfor %}

@@ -178,6 +178,8 @@ def addActivity_view(request):
             if goal_id:
                 goal = Goal.objects.get(pk=goal_id)
                 activity.linked_goal = goal
+                goal.status = 'In Progress'
+                goal.save()
 
             activity.save()
 
