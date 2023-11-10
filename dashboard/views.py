@@ -113,7 +113,11 @@ def activities_view(request):
     activities = Activity.objects.filter(user=request.user).prefetch_related('linked_goal').order_by('-created_at')
 
     if filter_category:
-        activities = activities.filter(linked_goal__category=filter_category)
+        if filter_category == 'all':
+            activities = activities
+        else:
+            activities = activities.filter(linked_goal__category=filter_category)
+        
 
     if sort_by:
         if sort_by == 'oldest':
