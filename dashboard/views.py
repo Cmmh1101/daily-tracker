@@ -3,8 +3,9 @@ from django.contrib.auth import authenticate, login, logout
 from django.db.models import Count, F
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
-from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect, JsonResponse
 from django.urls import reverse
+import requests
 from dashboard.forms import ActivityForm, DateSelectionForm, GoalForm
 from django.template.loader import get_template
 from xhtml2pdf import pisa
@@ -338,3 +339,14 @@ def generate_pdf_report(request):
 
 def custom_404(request, exception):
     return render(request, 'dashboard/404.html', status=404)
+
+def get_quote(request):
+    url = 'https://api.quotable.io/random'
+    response = requests.get(url)
+    if response.status_code == 200:
+        data = response.json()
+        quote = data['content']
+        author = data['author']
+        return JsonResponse({'quote': quote, 'author': author})
+    else:
+        return JsonResponse({'error': 'Failed to fetch quote'}, status=500)

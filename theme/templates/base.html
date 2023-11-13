@@ -9,6 +9,7 @@
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 		{% tailwind_css %}
 		<link rel="stylesheet" href="{% static 'css/dist/styles.css' %}" />
+		<script src="{% static 'main.js' %}"></script>
 		{% block script %}{% endblock %}
 	</head>
 
@@ -47,7 +48,12 @@
 			  <a href="{% url 'generate_pdf_report' %}" class="text-blue-700 hover:text-blue-900 hover:border-b-2 transition ease-in-out delay-150 hover:border-blue-600 w-fit mb-2 pb-1">Get Report</a>
 			</nav>
 			<div class="w-4/5 p-3">
-			{% block body %} {% endblock %}
+			<!-- Example HTML where the quote will be displayed -->
+				<div>
+					<p id="quote">Loading...</p>
+					<p id="author"></p>
+				</div>
+				{% block body %} {% endblock %}
 			</div>
 		  </div>
 		  {% else %}

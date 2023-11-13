@@ -170,3 +170,72 @@ INSTALLED_APPS = [
 
 - Run this command to kill postgres 
 > $ sudo pkill -u postgres
+
+## using external APIs 
+
+### Install requests
+
+> pip install requests
+
+### Create a Django View for Fetching Quotes:
+Define a Django view that will fetch quotes from an API. (e.g., the Quotable API).
+
+# views.py
+import requests
+from django.http import JsonResponse
+
+'''
+def get_quote(request):
+    url = 'https://api.quotable.io/random'
+    response = requests.get(url)
+    if response.status_code == 200:
+        data = response.json()
+        quote = data['content']
+        author = data['author']
+        return JsonResponse({'quote': quote, 'author': author})
+    else:
+        return JsonResponse({'error': 'Failed to fetch quote'}, status=500)
+'''
+
+### Map the View to a URL:
+# urls.py
+'''
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    # other paths
+    path('get-quote/', views.get_quote, name='get_quote'),
+]
+'''
+
+### Install Axios:
+> npm install axios
+
+### Front-end Integration using Axios:
+'''
+// Fetch a quote using Axios
+const getQuote = async () => {
+    try {
+        const response = await axios.get('/get-quote/');
+        if (response.data.quote) {
+            const quote = response.data.quote;
+            const author = response.data.author;
+
+            // Use the received quote and author to display in your HTML
+            const quoteElement = document.getElementById('quote');
+            const authorElement = document.getElementById('author');
+
+            quoteElement.innerText = `"${quote}"`;
+            authorElement.innerText = `- ${author}`;
+        } else {
+            console.error('Failed to fetch a quote:', response.data.error);
+        }
+    } catch (error) {
+        console.error('Error fetching a quote:', error);
+    }
+};
+
+// Invoke the function to get the quote
+getQuote();
+'''
