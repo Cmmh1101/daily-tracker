@@ -31,36 +31,36 @@
                 {% elif goal.category == 'faith' %}#e74c3c
                 {% elif goal.category == 'financial' %}#f1c40f
                 {% endif %};">
-                <a href="{% url 'goal' goal.id %}" class="flex p-3">
+                <a href="{% url 'goal' goal.id %}" class="flex justify-between p-3">
                     <div>
-                    <h3 class="text-md capitalize text-blue-950 font-bold">{{ goal.title }}</h3>
-                    {% if goal.target_date %}
-                    <p class="text-sm">Target Date: <span class="text-gray-700 italic">{{ goal.target_date }}</span></p>
-                    {% else %}
-                        No target date set
-                    {% endif %}
-                    {% for activity in activities_by_goal %}
+                        <h3 class="text-md capitalize text-blue-950 font-bold">{{ goal.title }}</h3>
+                        {% if goal.target_date %}
+                        <p class="text-sm">Target Date: <span class="text-gray-700 italic">{{ goal.target_date }}</span></p>
+                        {% else %}
+                            No target date set
+                        {% endif %}
+                        {% for activity in activities_by_goal %}
                         {% if activity.linked_goal__id == goal.id %}
                             <div class="flex flex-wrap">
                                 Activities logged: {{activity.total}}
                             </div>
                         {% endif %}
                         {% empty %}
-                <div class="text-red-500">
-                    No activities logged yet
-                </div>
-            </div>
-                    {% endfor %}
-        </div>
-        <div>
-            {% if goal.status == "Not Started"%}
-            <p>nope {{goal.status}}</p>
-            {% elif goal.status == "In Progress"%}
-            <p>prog {{goal.status}}</p>
-            {% elif goal.status == "Achieved"%}
-            <p>done {{goal.status}}</p>
-            {% endif %}
-        </div>
+                            <div class="text-red-500">
+                                No activities logged yet
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <div class="flex flex-col text-center items-center justify-center">
+                        {% if goal.status == "Not Started"%}
+                        <p class="flex flex-col text-center items-center"><i class="fa-solid fa-x"></i> {{goal.status}}</p>
+                        {% elif goal.status == "In Progress"%}
+                        <p class="flex flex-col text-center items-center"><i class="fa-solid fa-list-check"></i> {{goal.status}}</p>
+                        {% elif goal.status == "Achieved"%}
+                        <p class="flex flex-col text-center items-center"><i class="fa-solid fa-check"></i> {{goal.status}}</p>
+                        {% endif %}
+                    </div>
                 </a>
             </div>
         {% endfor %}

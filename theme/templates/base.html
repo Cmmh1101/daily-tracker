@@ -12,18 +12,15 @@
 		<link rel="stylesheet" href="{% static 'css/dist/styles.css' %}" />
 		{% block script %}{% endblock %}
 	</head>
-
 	<body>
 		<div class="mx-auto">
 		  <nav class="flex justify-between items-center px-3 w-full flex-wrap h-20">
 			<div>
 				<a href="/" class="text-2xl">DailyTracker</a>
-				<a href="{% url 'addGoal' %}" class="ml-3 text-lg mr-0 bg-blue-600 text-white px-2 py-1 rounded-md"><i class="fa-solid fa-bullseye"></i> Add goal</a>
-				<a href="{% url 'addActivity' %}" class="ml-3 text-lg mr-0 bg-blue-600 text-white px-2 py-1 rounded-md"><i class="fa-solid fa-briefcase"></i> Add Activity</a>
 			</div>
 			
 			{% if user.is_authenticated %}
-			<div class="flex">
+			<div class="flex items-center">
 			  <p class="mr-3">
 				Signed in as <strong>{{ user.username }}</strong>.
 			  </p>
@@ -43,16 +40,11 @@
 			  <a href="{% url 'dashboard' %}" class="text-blue-700 hover:text-blue-900 hover:border-b-2 transition ease-in-out delay-150 hover:border-blue-600 w-fit mb-2 pb-1">Dashboard</a>
 			  <a href="{% url 'goals' %}" class="text-blue-700 hover:text-blue-900 hover:border-b-2 transition ease-in-out delay-150 hover:border-blue-600 w-fit mb-2 pb-1">Goals</a>
 			  <a href="{% url 'activities' %}" class="text-blue-700 hover:text-blue-900 hover:border-b-2 transition ease-in-out delay-150 hover:border-blue-600 w-fit mb-2 pb-1">Activities</a>
-			  <a href="{% url 'addActivity' %}" class="text-blue-700 hover:text-blue-900 hover:border-b-2 transition ease-in-out delay-150 hover:border-blue-600 w-fit mb-2 pb-1">Add Activity</a>
-			  <a href="{% url 'addGoal' %}" class="text-blue-700 hover:text-blue-900 hover:border-b-2 transition ease-in-out delay-150 hover:border-blue-600 w-fit mb-2 pb-1">Add goal</a>
+			  <a href="{% url 'addGoal' %}" class="text-blue-700 hover:text-blue-900 hover:border-b-2 transition ease-in-out delay-150 hover:border-blue-600 w-fit mb-2 pb-1">New goal</a>
+			  <a href="{% url 'addActivity' %}" class="text-blue-700 hover:text-blue-900 hover:border-b-2 transition ease-in-out delay-150 hover:border-blue-600 w-fit mb-2 pb-1">New Activity</a>
 			  <a href="{% url 'generate_pdf_report' %}" class="text-blue-700 hover:text-blue-900 hover:border-b-2 transition ease-in-out delay-150 hover:border-blue-600 w-fit mb-2 pb-1">Get Report</a>
 			</nav>
-			<div class="w-4/5 p-3">
-			<!-- Example HTML where the quote will be displayed -->
-				<div>
-					<p id="quote"></p>
-					<p id="author"></p>
-				</div>
+			<div class="w-4/5 p-3 mx-auto">
 				{% block body %} {% endblock %}
 			</div>
 		  </div>

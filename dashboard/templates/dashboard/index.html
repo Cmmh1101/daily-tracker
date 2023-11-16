@@ -1,14 +1,24 @@
 {% extends 'base.html' %}
 {% block body %}
 <div>
-    {% if quote_data %}
+{% if quote_data %}
     {% with quote=quote_data.0 %}
-        <blockquote class="bg-blue-300 p-2 rounded-md text-center" cite="https://www.huxley.net/bnw/four.html">
+        <blockquote class="bg-blue-200 p-2 rounded-md text-center" cite="https://zenquotes.io/">
             <p class="italic font-bold">{{ quote.q }}</p>
             <footer class="text-sm text-gray-800">—{{ quote.a }}</footer>
           </blockquote>
-          
     {% endwith %}
 {% endif %}
+    <div class="my-8 text-center">
+        <h1 class="text-2xl mb-6">
+            <span class="italic text-blue-800 font-bold capitalize">{{ user.username }}</span>, Welcome to your Daily tracker! 
+        </h1>
+        <p class="font-semibold text-lg">Today is the day, and now is the time</p> 
+        <p>Track of your <a href="{% url 'addGoal' %}" class="italic hover:text-blue-800">Goals</a> and <a href="{% url 'addActivity' %}" class="italic hover:text-blue-800">Activities</a> to make your goals a reality.</p>
+        <div class="my-4">
+            <a href="{% url 'addGoal' %}" class="ml-3 text-lg mr-0 bg-blue-600 text-white px-2 py-1 rounded-md"><i class="fa-solid fa-bullseye"></i> New Goal</a>
+            <a href="{% url 'addActivity' %}" class="ml-3 text-lg mr-0 bg-blue-600 text-white px-2 py-1 rounded-md"><i class="fa-solid fa-briefcase"></i> New Activity</a>
+        </div>
+    </div>
 </div>
 {% endblock body %}
