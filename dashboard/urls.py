@@ -3,6 +3,7 @@ from . import views
 
 urlpatterns = [
     path("", views.index, name="index"),
+    path('dashboard', views.dashboard_view, name="dashboard"),
     path("login", views.login_view, name="login"),
     path("logout", views.logout_view, name="logout"),
     path("register", views.register, name="register"),
@@ -17,5 +18,4 @@ urlpatterns = [
     path("deleteActivity/<int:activity_id>", views.delete_activity, name="deleteActivity"),
     path("deleteGoal/<int:goal_id>", views.delete_goal, name="deleteGoal"),
     path('generate_pdf', views.generate_pdf_report, name='generate_pdf_report'),
-    path('get_quote', views.get_quote, name="get_quote")
 ]

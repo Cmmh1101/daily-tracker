@@ -1,4 +1,5 @@
 {% load static tailwind_tags %}
+
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -9,7 +10,6 @@
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 		{% tailwind_css %}
 		<link rel="stylesheet" href="{% static 'css/dist/styles.css' %}" />
-		<script src="{% static 'main.js' %}"></script>
 		{% block script %}{% endblock %}
 	</head>
 
@@ -40,7 +40,7 @@
 		  {% if user.is_authenticated %}
 		  <div class="flex">
 			<nav class="w-[150px] min-h-screen p-3 flex flex-col bg-gray-200">
-			  <a href="{% url 'index' %}" class="text-blue-700 hover:text-blue-900 hover:border-b-2 transition ease-in-out delay-150 hover:border-blue-600 w-fit mb-2 pb-1">Dashboard</a>
+			  <a href="{% url 'dashboard' %}" class="text-blue-700 hover:text-blue-900 hover:border-b-2 transition ease-in-out delay-150 hover:border-blue-600 w-fit mb-2 pb-1">Dashboard</a>
 			  <a href="{% url 'goals' %}" class="text-blue-700 hover:text-blue-900 hover:border-b-2 transition ease-in-out delay-150 hover:border-blue-600 w-fit mb-2 pb-1">Goals</a>
 			  <a href="{% url 'activities' %}" class="text-blue-700 hover:text-blue-900 hover:border-b-2 transition ease-in-out delay-150 hover:border-blue-600 w-fit mb-2 pb-1">Activities</a>
 			  <a href="{% url 'addActivity' %}" class="text-blue-700 hover:text-blue-900 hover:border-b-2 transition ease-in-out delay-150 hover:border-blue-600 w-fit mb-2 pb-1">Add Activity</a>
@@ -50,7 +50,7 @@
 			<div class="w-4/5 p-3">
 			<!-- Example HTML where the quote will be displayed -->
 				<div>
-					<p id="quote">Loading...</p>
+					<p id="quote"></p>
 					<p id="author"></p>
 				</div>
 				{% block body %} {% endblock %}

@@ -14,6 +14,11 @@ from .models import Activity, User, Goal, CATEGORY_CHOICES
 
 # Create your views here.
 def index(request):
+    quote_data = get_quote()
+    context = {'quote_data': quote_data}
+    return render(request, 'dashboard/index.html', context)
+
+def dashboard_view(request):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
     # total categories
@@ -46,7 +51,7 @@ def index(request):
         'activities_by_goal': activities_by_goal
     }
 
-    return render(request, 'dashboard/index.html', context)
+    return render(request, 'dashboard/dashboard.html', context)
 
 def login_view(request):
     if request.method == "POST":
@@ -118,7 +123,6 @@ def activities_view(request):
             activities = activities
         else:
             activities = activities.filter(linked_goal__category=filter_category)
-        
 
     if sort_by:
         if sort_by == 'oldest':
@@ -160,7 +164,6 @@ def goals_view(request):
 def goal_view(request, goal_id):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
-    
     goal = get_object_or_404(Goal, id=goal_id, user=request.user)
     return render(request, "dashboard/goal.html", {
         'goal': goal
@@ -340,13 +343,12 @@ def generate_pdf_report(request):
 def custom_404(request, exception):
     return render(request, 'dashboard/404.html', status=404)
 
-def get_quote(request):
-    url = 'https://api.quotable.io/random'
+def get_quote():
+    url = 'https://zenquotes.io/api/random'
     response = requests.get(url)
     if response.status_code == 200:
         data = response.json()
-        quote = data['content']
-        author = data['author']
-        return JsonResponse({'quote': quote, 'author': author})
+        print(data)
+        return data
     else:
         return JsonResponse({'error': 'Failed to fetch quote'}, status=500)

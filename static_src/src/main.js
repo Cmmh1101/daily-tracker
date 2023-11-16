@@ -1,6 +1,7 @@
+import axios from 'axios';
 const getQuote = async () => {
     try {
-        const response = await axios.get('get_quote/');
+        const response = await axios.get('/get_quote/');
         if (response.data.quote) {
             const quote = response.data.quote;
             const author = response.data.author;
