@@ -9,7 +9,7 @@ import requests
 from dashboard.forms import ActivityForm, DateSelectionForm, GoalForm
 from django.template.loader import get_template
 from xhtml2pdf import pisa
-from datetime import datetime
+from django.utils import timezone, datetime_safe
 from .models import Activity, User, Goal, CATEGORY_CHOICES
 
 # Create your views here.
@@ -320,7 +320,7 @@ def generate_pdf_report(request):
 
             context = {
                 'activities': activities,
-                'report_date': datetime(year, month or 1, day or 1),
+                'report_date': datetime_safe.datetime(year, month or 1, day or 1),
                 'categories': categories
             }
             html = template.render(context)
@@ -358,5 +358,6 @@ def mark_goal_completed(request, goal_id):
     if request.method == 'POST':
         goal = get_object_or_404(Goal, id=goal_id, user=request.user)
         goal.status = 'Achieved'
+        goal.achieved_at = timezone.now()
         goal.save()
         return redirect('goal', goal_id=goal.id)

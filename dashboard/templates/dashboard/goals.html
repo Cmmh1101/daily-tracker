@@ -32,12 +32,12 @@
                 {% elif goal.category == 'financial' %}#f1c40f
                 {% endif %};">
                 <a href="{% url 'goal' goal.id %}" class="flex justify-between p-3">
-                    <div>
+                    <div class="w-2/3 pr-3">
                         <h3 class="text-md capitalize text-blue-950 font-bold">{{ goal.title }}</h3>
                         {% if goal.target_date %}
                         <p class="text-gray-800 text-sm">Target Date: <span class="text-gray-700 italic">{{ goal.target_date }}</span></p>
                         {% else %}
-                            <p class="text-gray-800 text-sm">No target date set</p>
+                            <p class="text-gray-800 text-sm">No target date</p>
                         {% endif %}
                         {% for activity in activities_by_goal %}
                         {% if activity.linked_goal__id == goal.id %}
@@ -54,13 +54,13 @@
                         </div>
                         {% endfor %}
                     </div>
-                    <div class="flex flex-col text-center items-center justify-center bg-gray-500 text-white rounded-md p-3">
+                    <div class="w-1/3 flex flex-col text-center items-center justify-center bg-gray-500 text-white rounded-md p-3">
                         {% if goal.status == "Not Started"%}
-                        <p class="flex flex-col text-center items-center"><i class="fa-solid fa-x text-red-500"></i> {{goal.status}}</p>
+                        <p class="flex flex-col text-center items-center"><i class="fa-solid fa-x"></i> {{goal.status}}</p>
                         {% elif goal.status == "In Progress"%}
-                        <p class="flex flex-col text-center items-center"><i class="fa-solid fa-list-check text-yellow-200"></i> {{goal.status}}</p>
+                        <p class="flex flex-col text-center items-center"><i class="fa-solid fa-list-check"></i> {{goal.status}}</p>
                         {% elif goal.status == "Achieved"%}
-                        <p class="flex flex-col text-center items-center"><i class="fa-solid fa-check text-green-300"></i> {{goal.status}}</p>
+                        <p class="flex flex-col text-center items-center"><i class="fa-solid fa-crown"></i> {{goal.status}}</p>
                         {% endif %}
                     </div>
                 </a>
