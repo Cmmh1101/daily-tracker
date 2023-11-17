@@ -18,4 +18,5 @@ urlpatterns = [
     path("deleteActivity/<int:activity_id>", views.delete_activity, name="deleteActivity"),
     path("deleteGoal/<int:goal_id>", views.delete_goal, name="deleteGoal"),
     path('generate_pdf', views.generate_pdf_report, name='generate_pdf_report'),
+    path('goal/<int:goal_id>/mark_completed/', views.mark_goal_completed, name='mark_goal_completed'),
 ]

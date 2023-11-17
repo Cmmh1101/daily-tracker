@@ -35,30 +35,32 @@
                     <div>
                         <h3 class="text-md capitalize text-blue-950 font-bold">{{ goal.title }}</h3>
                         {% if goal.target_date %}
-                        <p class="text-sm">Target Date: <span class="text-gray-700 italic">{{ goal.target_date }}</span></p>
+                        <p class="text-gray-800 text-sm">Target Date: <span class="text-gray-700 italic">{{ goal.target_date }}</span></p>
                         {% else %}
-                            No target date set
+                            <p class="text-gray-800 text-sm">No target date set</p>
                         {% endif %}
                         {% for activity in activities_by_goal %}
                         {% if activity.linked_goal__id == goal.id %}
-                            <div class="flex flex-wrap">
-                                Activities logged: {{activity.total}}
-                            </div>
+                            <p class="flex flex-wrap text-gray-800 text-sm">
+                                Activities:    
+                                <span class="italic ml-1">            {{ activity.total }}
+                                </span>
+                            </p>
                         {% endif %}
                         {% empty %}
                             <div class="text-red-500">
-                                No activities logged yet
+                                No activities
                             </div>
                         </div>
                         {% endfor %}
                     </div>
-                    <div class="flex flex-col text-center items-center justify-center">
+                    <div class="flex flex-col text-center items-center justify-center bg-gray-500 text-white rounded-md p-3">
                         {% if goal.status == "Not Started"%}
-                        <p class="flex flex-col text-center items-center"><i class="fa-solid fa-x"></i> {{goal.status}}</p>
+                        <p class="flex flex-col text-center items-center"><i class="fa-solid fa-x text-red-500"></i> {{goal.status}}</p>
                         {% elif goal.status == "In Progress"%}
-                        <p class="flex flex-col text-center items-center"><i class="fa-solid fa-list-check"></i> {{goal.status}}</p>
+                        <p class="flex flex-col text-center items-center"><i class="fa-solid fa-list-check text-yellow-200"></i> {{goal.status}}</p>
                         {% elif goal.status == "Achieved"%}
-                        <p class="flex flex-col text-center items-center"><i class="fa-solid fa-check"></i> {{goal.status}}</p>
+                        <p class="flex flex-col text-center items-center"><i class="fa-solid fa-check text-green-300"></i> {{goal.status}}</p>
                         {% endif %}
                     </div>
                 </a>

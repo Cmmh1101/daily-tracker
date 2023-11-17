@@ -352,3 +352,11 @@ def get_quote():
         return data
     else:
         return JsonResponse({'error': 'Failed to fetch quote'}, status=500)
+
+
+def mark_goal_completed(request, goal_id):
+    if request.method == 'POST':
+        goal = get_object_or_404(Goal, id=goal_id, user=request.user)
+        goal.status = 'Achieved'
+        goal.save()
+        return redirect('goal', goal_id=goal.id)
