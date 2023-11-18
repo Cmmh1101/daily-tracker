@@ -10,6 +10,7 @@ from dashboard.forms import ActivityForm, DateSelectionForm, GoalForm
 from django.template.loader import get_template
 from xhtml2pdf import pisa
 from django.utils import timezone, datetime_safe
+from dateutil.relativedelta import relativedelta
 from .models import Activity, User, Goal, CATEGORY_CHOICES
 
 # Create your views here.
@@ -114,15 +115,29 @@ def activities_view(request):
         return HttpResponseRedirect(reverse("login"))
     
     filter_category = request.GET.get('category')
+    filter_goal = request.GET.get('goal')
+    filter_date = request.GET.get('date')
     sort_by = request.GET.get('sort')
 
     activities = Activity.objects.filter(user=request.user).prefetch_related('linked_goal').order_by('-created_at')
 
-    if filter_category:
-        if filter_category == 'all':
-            activities = activities
-        else:
-            activities = activities.filter(linked_goal__category=filter_category)
+    goals = Goal.objects.filter(user=request.user)
+
+    # Apply category filter
+    if filter_category and filter_category != 'all':
+        activities = activities.filter(linked_goal__category=filter_category)
+
+    # Apply goal filter
+    if filter_goal:
+        activities = activities.filter(linked_goal__title=filter_goal)
+
+    # Apply date filter
+    if filter_date:
+        try:
+            filter_date = timezone.datetime.strptime(filter_date, '%Y-%m')
+            activities = activities.filter(created_at__year=filter_date.year, created_at__month=filter_date.month)
+        except ValueError:
+            pass  # Handle invalid date format gracefully, or you can raise an error
 
     if sort_by:
         if sort_by == 'oldest':
@@ -133,8 +148,8 @@ def activities_view(request):
     return render(request, "dashboard/activities.html", {
         'activities': activities,
         'categories': CATEGORY_CHOICES,
+        'goals': goals,  
     })
-
 def activity_view(request, activity_id):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))

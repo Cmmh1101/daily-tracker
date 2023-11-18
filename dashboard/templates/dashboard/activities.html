@@ -64,14 +64,31 @@
             <button id="filter" class="mx-4"><i class="fa-solid fa-filter"></i> Filter</button>
             <button id="sort"><i class="fa-solid fa-sort"></i> Sort by</button>
         </div>
-        <div id="filter-box" class=" text-center w-100 bg-white p-3">
+        <div id="filter-box" class="text-center w-100 bg-white p-3">
             <div class="filter-categories text-blue-700 flex flex-col">
-                <a href="?category=all&sort={{ request.GET.sort }}">All</a>
-                <a href="?category=professional&sort={{ request.GET.sort }}">Professional</a>
-                <a href="?category=personal&sort={{ request.GET.sort }}">Personal</a>
-                <a href="?category=development&sort={{ request.GET.sort }}">Development</a>
-                <a href="?category=faith&sort={{ request.GET.sort }}">Faith</a>
-                <a href="?category=financial&sort={{ request.GET.sort }}">Financial</a>
+                <h3 class="text-gray-700">By Category</h3>
+                <a href="?category=all&goal={{ request.GET.goal }}&date={{ request.GET.date }}&sort={{ request.GET.sort }}">All</a>
+                <a href="?category=professional&goal={{ request.GET.goal }}&date={{ request.GET.date }}&sort={{ request.GET.sort }}">Professional</a>
+                <!-- Add similar links for other categories -->
+                <a href="?category=personal&goal={{ request.GET.goal }}&date={{ request.GET.date }}&sort={{ request.GET.sort }}">Personal</a>
+                <a href="?category=development&goal={{ request.GET.goal }}&date={{ request.GET.date }}&sort={{ request.GET.sort }}">Development</a>
+                <a href="?category=faith&goal={{ request.GET.goal }}&date={{ request.GET.date }}&sort={{ request.GET.sort }}">Faith</a>
+                <a href="?category=financial&goal={{ request.GET.goal }}&date={{ request.GET.date }}&sort={{ request.GET.sort }}">Financial</a>
+            </div>
+            <div class="filter-goals text-blue-700 flex flex-col mt-3">
+                <h3 class="text-gray-700">By Goal</h3>
+                {% for goal in goals %}
+                    <a href="?goal={{ goal.title }}&category={{ request.GET.category }}&date={{ request.GET.date }}&sort={{ request.GET.sort }}">{{ goal.title }}</a>
+                {% endfor %}
+            </div>
+            <div class="filter-dates text-blue-700 flex flex-col mt-3">
+                <h3 class="text-gray-700">By Date</h3>
+                <!-- You can use date picker or input fields for date filtering -->
+                <form method="get">
+                    <label for="date">Select Year and Month:</label>
+                    <input type="month" id="date" name="date" value="{{ request.GET.date|default:'' }}" min="YYYY-MM" max="YYYY-MM">
+                    <input type="submit" value="Filter">
+                </form>
             </div>
         </div>
         <div id="sort-box" class="text-center w-100 bg-white p-3">
