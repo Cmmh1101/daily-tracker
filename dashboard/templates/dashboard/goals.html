@@ -1,5 +1,24 @@
 {% extends 'base.html' %}
 
+{% block script %}
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const filterBox = document.querySelector('#filter-goal-box');
+        const filterButton = document.querySelector('#filter-goal');
+
+        filterBox.style.display = 'none';  // Add this line
+
+        filterButton.addEventListener('click', function() {
+            if (filterBox.style.display === 'block') {
+                filterBox.style.display = 'none';
+            } else {
+                filterBox.style.display = 'block';
+            }
+        });
+    });
+    </script>
+{% endblock %}
+
 {% block body %}
 <div>
     <div class="flex justify-between items-center flex-wrap mb-5">
@@ -18,6 +37,28 @@
                     <span class="text-gray-500 text-xs ml-1">{{ category.1|title }}</span>
                 </div>
             {% endfor %}
+        </div>
+    </div>
+    <div class="flex justify-end text-gray-500">
+        <button id="filter-goal" class="mx-4"><i class="fa-solid fa-filter"></i> Filter</button>
+    </div>
+    <div id="filter-goal-box" class="text-center w-100 bg-white p-3">
+        <div class="filter-categories text-blue-700 flex flex-col">
+            <h3 class="text-gray-700">By Category</h3>
+            <a href="?category=all&goal={{ request.GET.goal }}&date={{ request.GET.date }}&sort={{ request.GET.sort }}">All</a>
+            <a href="?category=professional&goal={{ request.GET.goal }}&date={{ request.GET.date }}&sort={{ request.GET.sort }}">Professional</a>
+            <!-- Add similar links for other categories -->
+            <a href="?category=personal&goal={{ request.GET.goal }}&date={{ request.GET.date }}&sort={{ request.GET.sort }}">Personal</a>
+            <a href="?category=development&goal={{ request.GET.goal }}&date={{ request.GET.date }}">Development</a>
+            <a href="?category=faith&goal={{ request.GET.goal }}&date={{ request.GET.date }}">Faith</a>
+            <a href="?category=financial&goal={{ request.GET.goal }}&date={{ request.GET.date }}">Financial</a>
+        </div>
+        <div class="filter-goals text-blue-700 flex flex-col mt-3">
+            <h3 class="text-gray-700">Filter Goals</h3>
+            <a href="?status=all&category={{ request.GET.category }}">All</a>
+            <a href="?status=Not Started&category={{ request.GET.category }}">Not Started</a>
+            <a href="?status=In Progress&category={{ request.GET.category }}">In Progress</a>
+            <a href="?status=Achieved&category={{ request.GET.category}}">Achieved</a>
         </div>
     </div>
 

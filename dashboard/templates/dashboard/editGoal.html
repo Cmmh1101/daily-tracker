@@ -11,6 +11,7 @@
             {{ form.as_p }}  {# Render the form fields as paragraphs (p elements) #}
 
             <input type="submit" value="Save Changes" class="bg-blue-500 text-white py-2 px-4 rounded cursor-pointer">
+            <a href="{% url 'goal' goal.id %}" class=" text-blue-900 py-2 px-4 rounded cursor-pointer">Cancel</a>
         </form>
     </div>
 {% endblock body %}

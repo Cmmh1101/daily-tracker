@@ -2,21 +2,26 @@
 
 {% block body %}
     <h1 class="text-blue-700 text-3xl">Generate report</h1>
-    <form class="p-5" method="post" class="my-3">
+    <form class="p-5 md:w-2/3 lg:w-1/2 mx-auto" method="post" class="my-3">
         {% csrf_token %}
-        <div class="flex flex-wrap my-3">
+        <div class="flex flex-wrap justify-between my-3">
             <div class="flex flex-col w-24 mr-2">
                 {{ form.year.label_tag }} {{ form.year }}
+                <p class="text-xs text-red-700 italic mt-1">* Required</p> 
             </div>
             <div class="flex flex-col w-24 mr-2">
                 {{ form.month.label_tag }} {{ form.month }}
+                <p class="text-xs text-gray-700 italic mt-1">Optional</p> 
             </div>
             <div class="flex flex-col w-24 mr-2">
                 {{ form.day.label_tag }} {{ form.day }}
+                <p class="text-xs text-gray-700 italic mt-1">Optional</p> 
             </div>
         </div>
-        <div>
-            {{ form.category.label_tag }} {{ form.category }}
+        <div class="mt-10">
+            {{ form.category.label_tag }}
+            <p class="text-xs text-gray-700 italic">Optional</p> 
+            {{ form.category }}
         </div>
     <button type="submit" class="mt-5 bg-blue-500 text-white py-2 px-4 rounded cursor-pointer">Generate PDF</button>
     </form>

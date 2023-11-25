@@ -15,13 +15,13 @@
   </div>
 </div>
 
-  {% comment %} {% if activity.updated_at > activity.created_at %}
+  {% if activity.updated_at > activity.created_at %}
   <div>Updated: {{ activity.updated_at }}</div>
-  {% endif %} {% endcomment %}
+  {% endif %}
   {% if goal.status != 'Achieved' %} 
   <form method="post" action="{% url 'mark_goal_completed' goal.id %}" class="bg-green-500 rounded-sm text-center mt-3 mb-5">
     {% csrf_token %}
-    <button type="submit" class="px-2 py-1">
+    <button type="submit" class="w-full px-2 py-1">
         <i class="fa-regular fa-check-circle mr-1"></i>Mark As Goal Accomplished
     </button>
 </form>

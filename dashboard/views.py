@@ -150,6 +150,7 @@ def activities_view(request):
         'categories': CATEGORY_CHOICES,
         'goals': goals,  
     })
+
 def activity_view(request, activity_id):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
@@ -158,19 +159,33 @@ def activity_view(request, activity_id):
         'activity': activity
     })
     
-
 def goals_view(request):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
     
+    # Get filter parameters
+    filter_status = request.GET.get('status')
+    filter_category = request.GET.get('category')
+
+    # Start with all goals
     goals = Goal.objects.filter(user=request.user).order_by('-created_at')
 
+    # Apply status filter
+    if filter_status and filter_status != 'all':
+        goals = goals.filter(status=filter_status)
+    
+    # Apply category filter
+    if filter_category and filter_category != 'all':
+        goals = goals.filter(category=filter_category)
+
+    # Get activities count by goal
     activities_by_goal = (
         Activity.objects.filter(user=request.user).values('linked_goal__id', 'linked_goal__title', 'linked_goal__category')
         .annotate(total=Count('linked_goal__id'))
         .order_by('linked_goal__id')
     )
-    return render(request, "dashboard/goals.html",{
+
+    return render(request, "dashboard/goals.html", {
         'goals': goals,
         'categories': CATEGORY_CHOICES,
         'activities_by_goal': activities_by_goal,
