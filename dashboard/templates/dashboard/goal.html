@@ -3,7 +3,7 @@
 <div>
   <div class="flex justify-between">
   <div class="mr-5">
-    <h1 class="text-xl capitalize">{{ goal.title}}</h1>
+    <h1 class="capitalize text-3xl text-blue-700">Goal: <span class="text-black"> {{ goal.title}} </span></h1>
     <span class="text-gray-500">Created: {{ goal.created_at }}</span><br>
     {% if goal.status == 'Achieved' %} 
     <i class="fa-solid fa-crown bg-green-700 text-white py-2 px-3 mr-1 rounded-sm my-3"></i><span class="text-gray-900 text-lg">Accomplished: {{ goal.achieved_at }}</span>

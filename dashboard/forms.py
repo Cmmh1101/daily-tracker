@@ -1,5 +1,6 @@
 from django import forms
 from .models import CATEGORY_CHOICES, Activity, Goal
+from django.core.validators import MinValueValidator
 
 class ActivityForm(forms.ModelForm):
     class Meta:
@@ -38,7 +39,6 @@ class GoalForm(forms.ModelForm):
             raise forms.ValidationError("Title must be at least 5 characters long.")
         return title
 
-    # Customize widgets with Tailwind CSS classes
     widgets = {
         'title': forms.TextInput(attrs={'class': 'w-full bg-blue-500 border p-5 rounded'}),
         'type': forms.Select(attrs={'class': 'w-full border p-2 rounded'}),
@@ -49,20 +49,20 @@ class GoalForm(forms.ModelForm):
 
 class DateSelectionForm(forms.Form):
     year = forms.IntegerField(
-        label='Year', 
-        widget=forms.NumberInput(attrs={'placeholder': 'YYYY'})
+        label='Year',
+        widget=forms.NumberInput(attrs={'placeholder': 'YYYY'}),validators=[MinValueValidator(2023)]
         )
     
     month = forms.IntegerField(
         label='Month', 
         required=False,
-        widget=forms.NumberInput(attrs={'placeholder': 'MM'})
+        widget=forms.NumberInput(attrs={'placeholder': 'MM'}), validators=[MinValueValidator(1)]
         )
     
     day = forms.IntegerField(
         label='Day', 
         required=False,
-        widget=forms.NumberInput(attrs={'placeholder': 'DD'})
+        widget=forms.NumberInput(attrs={'placeholder': 'DD'}), validators=[MinValueValidator(1)]
         )
     
     category = forms.MultipleChoiceField(

@@ -39,8 +39,9 @@
             {% endfor %}
         </div>
     </div>
+    <a href="{% url 'addGoal' %}" class="text-lg bg-blue-600 text-white p-2 rounded-md hover:bg-blue-700">New Goal</a>
     <div class="flex justify-end text-gray-500">
-        <button id="filter-goal" class="mx-4"><i class="fa-solid fa-filter"></i> Filter</button>
+        <button id="filter-goal" class="mx-4 pl-2 hover:text-gray-600"><i class="fa-solid fa-filter"></i> Filter</button>
     </div>
     <div id="filter-goal-box" class="text-center w-100 bg-white p-3">
         <div class="filter-categories text-blue-700 flex flex-col">
@@ -62,7 +63,6 @@
         </div>
     </div>
 
-    <a href="{% url 'addGoal' %}" class="text-lg mr-0 bg-blue-600 text-white p-2 rounded-md">New Goal</a>
     <div class="my-5 md:grid md:grid-cols-2 md:gap-5">
         {% for goal in goals %}
             <div class="shadow-lg bg-gray-100 border-l-8 rounded-md my-3 md:my-0" style="border-left-color: 

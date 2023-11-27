@@ -3,7 +3,7 @@
 <div>
     <div class="flex justify-between">
   <div>
-    <h1 class="text-xl capitalize">{{ activity.title}}</h1>
+    <h1 class="capitalize text-3xl text-blue-700">Activity: <span class="text-black"> {{activity.title}} </span></h1>
     <span class="text-gray-500">Created: {{ activity.created_at }}</span>
   </div>
   <div>
@@ -15,9 +15,8 @@
   {% comment %} {% if activity.updated_at > activity.created_at %}
   <div>Updated: {{ activity.updated_at }}</div>
   {% endif %} {% endcomment %}
-  <hr class="my-2" />
+  <hr class="my-2" >
   <div>
-    Description:<br />
     <p class="activity-description">{{ activity.description}}</p>
   </div>
 </div>
