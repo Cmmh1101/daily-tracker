@@ -54,7 +54,6 @@
                 <h3 class="text-gray-700">By Category</h3>
                 <a href="?category=all&goal={{ request.GET.goal }}&date={{ request.GET.date }}">All</a>
                 <a href="?category=professional&goal={{ request.GET.goal }}&date={{ request.GET.date }}">Professional</a>
-                <!-- Add similar links for other categories -->
                 <a href="?category=personal&goal={{ request.GET.goal }}&date={{ request.GET.date }}">Personal</a>
                 <a href="?category=development&goal={{ request.GET.goal }}&date={{ request.GET.date }}">Development</a>
                 <a href="?category=faith&goal={{ request.GET.goal }}&date={{ request.GET.date }}">Faith</a>
@@ -85,7 +84,7 @@
         {% for activity in activities %} 
         {% with linked_goal=activity.linked_goal %}
             <div
-            class="shadow-lg my-3 md:my-0 bg-gray-100 border-l-8 rounded-md"
+            class="shadow-lg my-3 md:my-0 bg-gray-100 border-l-8 rounded-md transform transition delay-100 ease-in-out hover:scale-105"
             style="border-left-color: 
             {% if linked_goal.category == 'professional' %}#3498db
             {% elif linked_goal.category == 'personal' %}#27ae60

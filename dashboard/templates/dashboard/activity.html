@@ -3,12 +3,12 @@
 <div>
     <div class="flex justify-between">
   <div>
-    <h1 class="capitalize text-3xl text-blue-700">Activity: <span class="text-black"> {{activity.title}} </span></h1>
+    <h1 class="capitalize text-3xl text-gray-700">Activity: <span class="text-blue-700"> {{activity.title}} </span></h1>
     <span class="text-gray-500">Created: {{ activity.created_at }}</span>
   </div>
   <div>
-    <a href="{%url 'editActivity' activity.id %}" class="w-8 bg-yellow-500 text-white px-2 py-1 rounded-sm mr-3" title="Edit"><i class="fa-regular fa-pen-to-square"></i></a>
-    <a href="{% url "deleteActivity" activity.id %}" class="w-8 bg-red-600 text-white px-2 py-1 rounded-sm text-center" title="Delete"><i class="fa-regular fa-trash-can"></i></a>
+    <a href="{%url 'editActivity' activity.id %}" class="w-8 bg-yellow-500 text-white px-2 py-1 rounded-sm mr-3 transform transition delay-100 ease-in-out hover:scale-110" title="Edit"><i class="fa-regular fa-pen-to-square"></i></a>
+    <a href="{% url "deleteActivity" activity.id %}" class="w-8 bg-red-600 text-white px-2 py-1 rounded-sm text-center transform transition delay-100 ease-in-out hover:scale-110" title="Delete"><i class="fa-regular fa-trash-can"></i></a>
   </div>
 </div>
 
@@ -19,5 +19,7 @@
   <div>
     <p class="activity-description">{{ activity.description}}</p>
   </div>
+  <hr class="my-5">
+  <a href="{% url 'activities' %}" class="w-8 bg-blue-600 text-white p-2 rounded-sm mt-5 transform transition delay-100 ease-in-out hover:scale-110 hover:bg-blue-700" title="Back">Back to Activities</a>
 </div>
 {% endblock body %}
