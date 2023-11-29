@@ -16,10 +16,7 @@ from .models import Activity, User, Goal, CATEGORY_CHOICES
 # Create your views here.
 def index(request):
     quote_data = get_quote()
-    context = {'quote_data': quote_data}
-    return render(request, 'dashboard/index.html', context)
 
-def dashboard_view(request):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
     # total categories
@@ -49,10 +46,46 @@ def dashboard_view(request):
         'total_categories': total_categories,
         'goals_by_category': goals_by_category,
         'activities_by_category': activities_by_category,
-        'activities_by_goal': activities_by_goal
+        'activities_by_goal': activities_by_goal,
+        'quote_data': quote_data
     }
 
-    return render(request, 'dashboard/dashboard.html', context)
+    return render(request, 'dashboard/index.html', context)
+
+# def dashboard_view(request):
+    # if not request.user.is_authenticated:
+    #     return HttpResponseRedirect(reverse("login"))
+    # # total categories
+    # total_categories = len(CATEGORY_CHOICES)
+    
+    # # total goals by category
+    # goals_by_category = (
+    #     Goal.objects.filter(user=request.user).values('category')
+    #     .annotate(total=Count('category'))
+    #     .order_by('category')
+    # )
+
+    # # total activities by category
+    # activities_by_category = (
+    #     Activity.objects.filter(user=request.user).values('linked_goal__category')
+    #     .annotate(total=Count('linked_goal__category'))
+    #     .order_by('linked_goal__category')
+    # )
+
+    # activities_by_goal = (
+    #     Activity.objects.filter(user=request.user).values('linked_goal__id', 'linked_goal__title', 'linked_goal__category')
+    #     .annotate(total=Count('linked_goal__id'))
+    #     .order_by('linked_goal__id')
+    # )
+
+    # context = {
+    #     'total_categories': total_categories,
+    #     'goals_by_category': goals_by_category,
+    #     'activities_by_category': activities_by_category,
+    #     'activities_by_goal': activities_by_goal
+    # }
+
+    # return render(request, 'dashboard/dashboard.html', context)
 
 def login_view(request):
     if request.method == "POST":

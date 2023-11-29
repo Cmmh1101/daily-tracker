@@ -37,7 +37,7 @@
 		  {% if user.is_authenticated %}
 		  <div class="flex">
 			<nav class="w-[150px] min-h-screen p-3 flex flex-col bg-gray-200">
-			  <a href="{% url 'dashboard' %}" class="text-blue-700 hover:text-blue-900 hover:border-b-2 transition ease-in-out delay-150 hover:border-blue-600 w-fit mb-2 pb-1">Dashboard</a>
+			  <a href="{% url 'index' %}" class="text-blue-700 hover:text-blue-900 hover:border-b-2 transition ease-in-out delay-150 hover:border-blue-600 w-fit mb-2 pb-1">Dashboard</a>
 			  <a href="{% url 'goals' %}" class="text-blue-700 hover:text-blue-900 hover:border-b-2 transition ease-in-out delay-150 hover:border-blue-600 w-fit mb-2 pb-1">Goals</a>
 			  <a href="{% url 'activities' %}" class="text-blue-700 hover:text-blue-900 hover:border-b-2 transition ease-in-out delay-150 hover:border-blue-600 w-fit mb-2 pb-1">Activities</a>
 			  <a href="{% url 'addGoal' %}" class="text-blue-700 hover:text-blue-900 hover:border-b-2 transition ease-in-out delay-150 hover:border-blue-600 w-fit mb-2 pb-1">New goal</a>
