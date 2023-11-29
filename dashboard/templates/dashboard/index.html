@@ -18,20 +18,20 @@
         </h1>
         <p class="font-semibold text-lg">Today is the day, and now is the time</p> 
         <p>Track of your <a href="{% url 'addGoal' %}" class="italic hover:text-blue-800">Goals</a> and <a href="{% url 'addActivity' %}" class="italic hover:text-blue-800">Activities</a> to make your goals a reality.</p>
-        <div class="my-4 flex md:flex-row">
+        <div class="my-4 flex md:flex-row justify-center">
             <a href="{% url 'addGoal' %}" class="ml-3 text-lg mr-0 bg-blue-600 text-white px-2 py-1 rounded-md"><i class="fa-solid fa-bullseye"></i> New Goal</a>
             <a href="{% url 'addActivity' %}" class="ml-3 text-lg mr-0 bg-blue-600 text-white px-2 py-1 rounded-md"><i class="fa-solid fa-briefcase"></i> New Activity</a>
         </div>
     </div>
     <hr>
     <div class="md:flex md:flex-wrap w-full overflow-x-auto">
-        <div class="w-full lg:w-1/2" style="min-width: 300px; overflow: auto">
-            <h2 class="text-blue-700 text-3xl">Total Goals by Category</h2>
-            <canvas class="h-fit" id="goalCategoriesChart" width="800" height="400"></canvas>
+        <div class="w-full lg:w-1/2 my-5" style="min-width: 300px; overflow: auto">
+            <h2 class="text-blue-700 text-3xl mb-3">Total Goals by Category</h2>
+            <canvas class="h-fit" id="goalCategoriesChart" width="800" height="450"></canvas>
         </div>
-        <div class="w-full lg:w-1/2" style="min-width: 300px; overflow: auto">
-            <h2 class="text-blue-700 text-3xl">Total Activities by Goal:</h2>
-            <canvas class="h-fit" id="activitiesByGoalsChart" width="800" height="400"></canvas>
+        <div class="w-full lg:w-1/2 my-5" style="min-width: 300px; overflow: auto">
+            <h2 class="text-blue-700 text-3xl mb-3">Total Activities by Goal:</h2>
+            <canvas class="h-fit" id="activitiesByGoalsChart" width="800" height="450"></canvas>
         </div>
     </div>
 </div>
