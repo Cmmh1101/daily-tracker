@@ -11,6 +11,7 @@ from django.template.loader import get_template
 from xhtml2pdf import pisa
 from django.utils import timezone, datetime_safe
 from dateutil.relativedelta import relativedelta
+from dashboard.utils import get_quote
 from .models import Activity, User, Goal, CATEGORY_CHOICES
 
 # Create your views here.
@@ -51,41 +52,6 @@ def index(request):
     }
 
     return render(request, 'dashboard/index.html', context)
-
-# def dashboard_view(request):
-    # if not request.user.is_authenticated:
-    #     return HttpResponseRedirect(reverse("login"))
-    # # total categories
-    # total_categories = len(CATEGORY_CHOICES)
-    
-    # # total goals by category
-    # goals_by_category = (
-    #     Goal.objects.filter(user=request.user).values('category')
-    #     .annotate(total=Count('category'))
-    #     .order_by('category')
-    # )
-
-    # # total activities by category
-    # activities_by_category = (
-    #     Activity.objects.filter(user=request.user).values('linked_goal__category')
-    #     .annotate(total=Count('linked_goal__category'))
-    #     .order_by('linked_goal__category')
-    # )
-
-    # activities_by_goal = (
-    #     Activity.objects.filter(user=request.user).values('linked_goal__id', 'linked_goal__title', 'linked_goal__category')
-    #     .annotate(total=Count('linked_goal__id'))
-    #     .order_by('linked_goal__id')
-    # )
-
-    # context = {
-    #     'total_categories': total_categories,
-    #     'goals_by_category': goals_by_category,
-    #     'activities_by_category': activities_by_category,
-    #     'activities_by_goal': activities_by_goal
-    # }
-
-    # return render(request, 'dashboard/dashboard.html', context)
 
 def login_view(request):
     if request.method == "POST":
@@ -147,6 +113,8 @@ def activities_view(request):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
     
+    quote_data = get_quote()
+    
     filter_category = request.GET.get('category')
     filter_goal = request.GET.get('goal')
     filter_date = request.GET.get('date')
@@ -181,21 +149,28 @@ def activities_view(request):
     return render(request, "dashboard/activities.html", {
         'activities': activities,
         'categories': CATEGORY_CHOICES,
-        'goals': goals,  
+        'goals': goals,
+        'quote_data': quote_data,  
     })
 
 def activity_view(request, activity_id):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
+    
+    quote_data = get_quote()
+
     activity = get_object_or_404(Activity, id=activity_id, user=request.user)
     return render(request, "dashboard/activity.html", {
-        'activity': activity
+        'activity': activity,
+        'quote_data': quote_data,
     })
     
 def goals_view(request):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
     
+    quote_data = get_quote()
+
     # Get filter parameters
     filter_status = request.GET.get('status')
     filter_category = request.GET.get('category')
@@ -222,20 +197,28 @@ def goals_view(request):
         'goals': goals,
         'categories': CATEGORY_CHOICES,
         'activities_by_goal': activities_by_goal,
+        'quote_data': quote_data,
     })
 
 def goal_view(request, goal_id):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse("login"))
+    
+    quote_data = get_quote()
+
     goal = get_object_or_404(Goal, id=goal_id, user=request.user)
     return render(request, "dashboard/goal.html", {
-        'goal': goal
+        'goal': goal,
+        'quote_data': quote_data,
     })
     
 
 def addActivity_view(request):
     if not request.user.is_authenticated:
             return redirect("login")
+    
+    quote_data = get_quote()
+
     if request.method == "POST":
         form = ActivityForm(request.POST)
         if form.is_valid():
@@ -260,11 +243,15 @@ def addActivity_view(request):
 
     return render(request, 'dashboard/addActivity.html', {
     'form': ActivityForm(),
+    'quote_data': quote_data,
     })
     
 def edit_activity(request, activity_id):
     if not request.user.is_authenticated:
         return redirect("login")
+    
+    quote_data = get_quote()
+
     activity = get_object_or_404(Activity, id=activity_id, user=request.user)
 
     if request.method == 'POST':
@@ -281,18 +268,27 @@ def edit_activity(request, activity_id):
     return render(request, "dashboard/editActivity.html", {
         'form': form,
         'activity': activity,
+        'quote_data': quote_data,
     })
     
 def delete_activity(request, activity_id):
+    quote_data = get_quote()
+
     activity = get_object_or_404(Activity, id=activity_id)
 
     if request.method == 'POST':
         activity.delete()
         return redirect('activities') 
 
-    return render(request, 'dashboard/deleteActivity.html', {'activity': activity})
+    return render(request, 'dashboard/deleteActivity.html', {
+        'activity': activity,
+        'quote_data': quote_data
+        })
 
 def addGoal_view(request):
+
+    quote_data = get_quote()
+
     if request.method == 'POST':
         form = GoalForm(request.POST)
         if form.is_valid():
@@ -307,9 +303,12 @@ def addGoal_view(request):
 
     return render(request, 'dashboard/addGoal.html', {
         'form': form,
+        'quote_data': quote_data,
     })
 
 def editGoal_view(request, goal_id):
+    quote_data = get_quote()
+
     goal = get_object_or_404(Goal, id=goal_id)
 
     if request.method == 'POST':
@@ -326,19 +325,22 @@ def editGoal_view(request, goal_id):
     return render(request, 'dashboard/editGoal.html', {
         'form': form,
         'goal': goal,
+        'quote_data': quote_data,
     })
 
 def delete_goal(request, goal_id):
+    quote_data = get_quote()
+
     goal = get_object_or_404(Goal, id=goal_id)
 
     if request.method == 'POST':
         goal.delete()
         return redirect('goals') 
     else:
-        return render(request, 'dashboard/deleteGoal.html', {'goal': goal})
-    
-# def generate_report_view(request):
-#     return render(request, "dashboard/generateReport.html")
+        return render(request, 'dashboard/deleteGoal.html', {
+            'goal': goal,
+            'quote_data': quote_data,
+            })
     
 def generate_pdf_report(request):
     if not request.user.is_authenticated:
@@ -399,23 +401,16 @@ def generate_pdf_report(request):
             return response
     else:
         form = DateSelectionForm()
+        quote_data = get_quote()
     
-    return render(request, 'dashboard/generateReport.html', {'form': form})
+    return render(request, 'dashboard/generateReport.html', {
+        'form': form,
+        "quote_data": quote_data,
+        })
 
 
 def custom_404(request, exception):
     return render(request, 'dashboard/404.html', status=404)
-
-def get_quote():
-    url = 'https://zenquotes.io/api/random'
-    response = requests.get(url)
-    if response.status_code == 200:
-        data = response.json()
-        print(data)
-        return data
-    else:
-        return JsonResponse({'error': 'Failed to fetch quote'}, status=500)
-
 
 def mark_goal_completed(request, goal_id):
     if request.method == 'POST':
