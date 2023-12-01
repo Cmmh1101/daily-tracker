@@ -36,7 +36,7 @@
 		  <hr />
 		  {% if user.is_authenticated %}
 		  <div class="flex">
-			<nav id="navbar" class="w-[150px] min-h-screen p-3 hidden md:flex flex-col bg-gray-200">
+			<nav id="navbar" class="w-[150px] min-h-screen p-3 hidden flex-col bg-gray-200">
 			  <a href="{% url 'index' %}" class="text-blue-700 hover:text-blue-900 hover:border-b-2 transition ease-in-out delay-150 hover:border-blue-600 w-fit mb-2 pb-1">Dashboard</a>
 			  <a href="{% url 'goals' %}" class="text-blue-700 hover:text-blue-900 hover:border-b-2 transition ease-in-out delay-150 hover:border-blue-600 w-fit mb-2 pb-1">Goals</a>
 			  <a href="{% url 'activities' %}" class="text-blue-700 hover:text-blue-900 hover:border-b-2 transition ease-in-out delay-150 hover:border-blue-600 w-fit mb-2 pb-1">Activities</a>
@@ -44,8 +44,8 @@
 			  <a href="{% url 'addActivity' %}" class="text-blue-700 hover:text-blue-900 hover:border-b-2 transition ease-in-out delay-150 hover:border-blue-600 w-fit mb-2 pb-1">New Activity</a>
 			  <a href="{% url 'generate_pdf_report' %}" class="text-blue-700 hover:text-blue-900 hover:border-b-2 transition ease-in-out delay-150 hover:border-blue-600 w-fit mb-2 pb-1">Get Report</a>
 			</nav>
-			<button id="show-nav" class="bg-gray-200 h-10 md:hidden pt-2 pb-3 px-3 mt-3"></button>
-			<div class="w-4/5 p-3 mx-auto">
+			<button id="show-nav" class="bg-gray-200 h-10 pt-2 pb-3 px-3 mt-3"></button>
+			<div id="main-wrapper" class="md:w-4/5 p-3 md:mx-auto">
 				{% if quote_data %}
 					{% with quote=quote_data.0 %}
 						<blockquote class="bg-blue-200 mb-6 p-2 rounded-md text-center" cite="https://zenquotes.io/">
@@ -54,7 +54,7 @@
 						</blockquote>
 					{% endwith %}
 				{% endif %}
-				{% block body %} {% endblock %}
+				<main>{% block body %} {% endblock %}</main>
 			</div>
 		  </div>
 		  {% else %}
@@ -67,24 +67,31 @@
 		<script>
 			const showNavButton = document.getElementById('show-nav')
 			const navbar = document.getElementById('navbar')
+			const mainWrapper = document.getElementById('main-wrapper')
+			let navOpen = true
 
 			navbar.style.display = 'flex'
+			mainWrapper.classList.add('w-3/4', 'md:w-4/5')
 
 			const arrow = document.createElement('i')
-			arrow.classList.add('fa-solid', 'fa-angles-right')
+			arrow.classList.add('fa-solid', 'fa-angles-left')
 			document.querySelector('#show-nav').append(arrow)
 
 			showNavButton.addEventListener('click', function() {
-				if (navbar.style.display !== 'flex') {
+				if (navOpen !== true) {
+					navOpen = true
 					arrow.className = ""
-					arrow.classList.add('fa-solid', 'fa-angles-right')
-					navbar.style.display = 'flex';
-					console.log('display flex')
-				} else {
 					arrow.className = ""
+					mainWrapper.classList.add('w-3/4')
 					arrow.classList.add('fa-solid', 'fa-angles-left')
-					navbar.style.display = 'none';
-					console.log('display none')
+					navbar.style.display = 'flex'
+				} else {
+					navOpen = false
+					arrow.className = ""
+					mainWrapper.classname = ""
+					arrow.classList.add('fa-solid', 'fa-angles-right')
+					navbar.style.display = 'none'
+					mainWrapper.classList.add('w-11/12', 'mx-0', 'flex-col', 'justify-center', 'items-center')
 				}
 			})
 		</script>
