@@ -150,6 +150,7 @@ STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static_src/'),  
+    os.path.join(BASE_DIR, 'static/css'), # Include the compiled Tailwind CSS
 ]
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')  # For final collected assets in production
