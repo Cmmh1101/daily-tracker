@@ -9,7 +9,8 @@ import requests
 from dashboard.forms import ActivityForm, DateSelectionForm, GoalForm
 from django.template.loader import get_template
 from xhtml2pdf import pisa
-from django.utils import timezone, datetime_safe
+from django.utils import timezone
+from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from dashboard.utils import get_quote
 from .models import Activity, User, Goal, CATEGORY_CHOICES

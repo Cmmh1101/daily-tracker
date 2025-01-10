@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 import os
 from pathlib import Path
 import environ
+import dj_database_url
 # Initialise environment variables
 env = environ.Env()
 environ.Env.read_env()
@@ -25,12 +26,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-39!$9*2vq&avlxzih2+x6i_4k5wyilyx(607t6q)8)e_#%0#73'
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env('DEBUG', cast=bool )
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = env('ALLOWED_HOSTS').split(",")
 
 
 # Application definition
@@ -86,16 +87,24 @@ AUTH_USER_MODEL="dashboard.User"
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'daily_tracker',
+#         'USER': 'postgres',
+#         'PASSWORD': env('POSTGRESQL_PASSWORD'),
+#         'HOST': 'localhost'
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'daily_tracker',
-        'USER': 'postgres',
-        'PASSWORD': env('POSTGRESQL_PASSWORD'),
-        'HOST': 'localhost'
+        'ENGINE': 'django.db.backends.psqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
+DATABASES['default'] = dj_database_url.parse(env('DATABASE_URL'))
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
