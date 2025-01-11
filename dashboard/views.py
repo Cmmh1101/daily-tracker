@@ -386,7 +386,7 @@ def generate_pdf_report(request):
 
             context = {
                 'activities': activities,
-                'report_date': datetime_safe.datetime(year, month or 1, day or 1),
+                'report_date': datetime(year, month or 1, day or 1),
                 'categories': categories
             }
             html = template.render(context)
