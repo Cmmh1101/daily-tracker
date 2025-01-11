@@ -2,12 +2,15 @@
 # Exit on error
 set -o errexit
 
+# Install dependencies
+pip install -r requirements.txt
+npm install
 
-# Modify this line as needed for your package manager (pip, poetry, etc.)
-npm install && npm run build && pip install -r requirements.txt
+# Build TailwindCSS
+npx tailwindcss -i ./static_src/src/styles.css -o ./static_src/css/dist/styles.css
 
-# Convert static asset files
+# Collect static files
 python manage.py collectstatic --no-input
 
-# Apply any outstanding database migrations
+# Apply database migrations
 python manage.py migrate
