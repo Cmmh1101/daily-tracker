@@ -40,6 +40,7 @@ TAILWIND_APP_NAME = 'theme'
 
 INSTALLED_APPS = [
     'dashboard',
+    'tailwind',
     'theme',
     'django.contrib.admin',
     'django.contrib.auth',
