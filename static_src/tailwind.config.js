@@ -15,5 +15,4 @@ module.exports = {
       require('@tailwindcss/line-clamp'),
       require('@tailwindcss/aspect-ratio'),
     ],
-    purge: ['./**/*.html', './static_src/src/**/*.js'],
   }
