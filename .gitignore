@@ -8,6 +8,8 @@ __pycache__/
 
 # node modules
 node_modules/
+static_src/src/node_modules/
+**/node_modules/
 
 # Distribution / packaging
 .Python
