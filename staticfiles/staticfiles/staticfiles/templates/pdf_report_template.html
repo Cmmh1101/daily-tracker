@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Activity Report</title>
+</head>
+<body>
+    <h1>Activity Report for {{ report_date }} - {{ categories }}
+    </h1>
+    <p>
+        {% if categories%}
+            {% for category in categories %}
+       -    {{ category }} 
+            {% endfor %}
+       {% endif %}
+
+    {% if activities %}    
+        <div style="border: 2px solid black; margin: 1rem 0; border-radius: 20px; padding: 5px; list-style: none; font-size: 18px">
+            {% for activity in activities %}
+                <p>{{ activity.linked_goal.category|title }} <br>
+                {{ activity.title }} <br>
+                {{ activity.created_at }} <br>
+                -
+                {{ activity.description }}
+            </p>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No records at this time</p>
+    {% endif %}
+
+</body>
+</html>
+

@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block body %}
+    <div class="w-full flex justify-between">
+        <h1 class="pl-5 text-blue-700 text-3xl">Edit Goal</h1>
+        <a href="{% url 'goal' goal.id %}" class="text-red-600 py-2 px-4 rounded cursor-pointer hover:underline"><i class="fa-solid fa-xmark fa-2xl"></i></a>
+    </div>
+
+    <div class="p-5">
+        <form method="post" action="{% url 'editGoal' goal.id %}">  <!-- Updated action URL for editing -->
+            {% csrf_token %}
+
+            {{ form.non_field_errors }}  {# Display form-level errors if any #}
+
+            {{ form.as_p }}  {# Render the form fields as paragraphs (p elements) #}
+
+            <input type="submit" value="Save Changes" class="bg-blue-600 text-white py-2 px-4 rounded cursor-pointer hover:bg-blue-700">
+            <a href="{% url 'goal' goal.id %}" class=" text-blue-900 py-2 px-4 rounded cursor-pointer hover:underline">Cancel</a>
+        </form>
+    </div>
+{% endblock body %}

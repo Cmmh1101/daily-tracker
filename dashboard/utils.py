@@ -7,7 +7,6 @@ def get_quote():
     response = requests.get(url)
     if response.status_code == 200:
         data = response.json()
-        print(data)
         return data
     else:
         return JsonResponse({'error': 'Failed to fetch quote'}, status=500)
