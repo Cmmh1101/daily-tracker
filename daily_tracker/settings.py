@@ -142,21 +142,22 @@ INTERNAL_IPS = [
     "127.0.0.1",
 ]
 
-STATIC_URL = '/static/'
+# STATIC_URL = '/static/'
+
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR, 'static_src/'),  
+#     os.path.join(BASE_DIR, 'static/css'), # Include the compiled Tailwind CSS
+# ]
+
+STATIC_URL = 'static/'
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static_src/'),  
-    os.path.join(BASE_DIR, 'static/css'), # Include the compiled Tailwind CSS
+    os.path.join(BASE_DIR, 'static'),  # Source folder for static assets
 ]
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-STATIC_URL = '/static/'
-
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static_src'),  # Source folder for static assets
-]
-
-if not DEBUG:
-    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Collected static files
-    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# if not DEBUG:
+#     STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Collected static files
+#     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
