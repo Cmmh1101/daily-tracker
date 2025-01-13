@@ -20,28 +20,21 @@ environ.Env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env('SECRET_KEY')
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env('DEBUG', cast=bool )
-
+ENVIRONMENT = env('ENVIRONMENT')
+if ENVIRONMENT == 'development':
+    DEBUG = True
 ALLOWED_HOSTS = env('ALLOWED_HOSTS').split(",")
 
 
 # Application definition
 
-TAILWIND_APP_NAME = 'theme'
+TAILWIND_APP_NAME = 'node'
 
 INSTALLED_APPS = [
     'dashboard',
     'tailwind',
-    'theme',
+    'node',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -66,7 +59,7 @@ ROOT_URLCONF = 'daily_tracker.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -142,20 +135,14 @@ INTERNAL_IPS = [
     "127.0.0.1",
 ]
 
-# STATIC_URL = '/static/'
-
-# STATICFILES_DIRS = [
-#     os.path.join(BASE_DIR, 'static_src/'),  
-#     os.path.join(BASE_DIR, 'static/css'), # Include the compiled Tailwind CSS
-# ]
-
-STATIC_URL = 'static/'
-
+# Static files (CSS, JavaScript, Images)
+STATIC_URL = '/static/'
+# Directories where static files are located
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),  # Source folder for static assets
+    BASE_DIR / 'static',  # Include only the `static` directory
 ]
+# Directory where collected static files will be placed
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-
 # if not DEBUG:
 #     STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Collected static files
 #     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'

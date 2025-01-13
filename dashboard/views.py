@@ -52,7 +52,7 @@ def index(request):
         'quote_data': quote_data
     }
 
-    return render(request, 'dashboard/index.html', context)
+    return render(request, '../templates/index.html', context)
 
 def login_view(request):
     if request.method == "POST":
@@ -67,11 +67,11 @@ def login_view(request):
             login(request, user)
             return HttpResponseRedirect(reverse("index"))
         else:
-            return render(request, "dashboard/login.html", {
+            return render(request, "../templates/login.html", {
                 "message": "Invalid username and/or password."
             })
     else:
-        return render(request, "dashboard/login.html")
+        return render(request, "../templates/login.html")
 
 
 def logout_view(request):
@@ -86,7 +86,7 @@ def register(request):
         password = request.POST["password"]
         confirmation = request.POST["confirmation"]
         if password != confirmation:
-            return render(request, "dashboard/register.html", {
+            return render(request, "../templates/register.html", {
                 "message": "Passwords must match."
             })
         # Attempt to create new user
@@ -94,13 +94,13 @@ def register(request):
             user = User.objects.create_user(username, email, password)
             user.save()
         except IntegrityError:
-            return render(request, "dashboard/register.html", {
+            return render(request, "../templates/register.html", {
                 "message": "Username already taken."
             })
         login(request, user)
         return HttpResponseRedirect(reverse("index"))
     else:
-        return render(request, "dashboard/register.html")
+        return render(request, "../templates/register.html")
     
 CATEGORY_CHOICES = [
     ('professional', 'Professional'),
@@ -147,7 +147,7 @@ def activities_view(request):
         elif sort_by == 'newest':
             activities = activities.order_by('-created_at')
     
-    return render(request, "dashboard/activities.html", {
+    return render(request, "../templates/activities.html", {
         'activities': activities,
         'categories': CATEGORY_CHOICES,
         'goals': goals,
@@ -161,7 +161,7 @@ def activity_view(request, activity_id):
     quote_data = get_quote()
 
     activity = get_object_or_404(Activity, id=activity_id, user=request.user)
-    return render(request, "dashboard/activity.html", {
+    return render(request, "../templates/activity.html", {
         'activity': activity,
         'quote_data': quote_data,
     })
@@ -194,7 +194,7 @@ def goals_view(request):
         .order_by('linked_goal__id')
     )
 
-    return render(request, "dashboard/goals.html", {
+    return render(request, "../templates/goals.html", {
         'goals': goals,
         'categories': CATEGORY_CHOICES,
         'activities_by_goal': activities_by_goal,
@@ -208,7 +208,7 @@ def goal_view(request, goal_id):
     quote_data = get_quote()
 
     goal = get_object_or_404(Goal, id=goal_id, user=request.user)
-    return render(request, "dashboard/goal.html", {
+    return render(request, "../templates/goal.html", {
         'goal': goal,
         'quote_data': quote_data,
     })
@@ -242,7 +242,7 @@ def addActivity_view(request):
     else:
         form = ActivityForm()
 
-    return render(request, 'dashboard/addActivity.html', {
+    return render(request, '../templates/addActivity.html', {
     'form': ActivityForm(),
     'quote_data': quote_data,
     })
@@ -266,7 +266,7 @@ def edit_activity(request, activity_id):
         form = ActivityForm(instance=activity)
 
     
-    return render(request, "dashboard/editActivity.html", {
+    return render(request, "../templates/editActivity.html", {
         'form': form,
         'activity': activity,
         'quote_data': quote_data,
@@ -281,7 +281,7 @@ def delete_activity(request, activity_id):
         activity.delete()
         return redirect('activities') 
 
-    return render(request, 'dashboard/deleteActivity.html', {
+    return render(request, '../templates/deleteActivity.html', {
         'activity': activity,
         'quote_data': quote_data
         })
@@ -302,7 +302,7 @@ def addGoal_view(request):
     else:
         form = GoalForm()
 
-    return render(request, 'dashboard/addGoal.html', {
+    return render(request, '../templates/addGoal.html', {
         'form': form,
         'quote_data': quote_data,
     })
@@ -323,7 +323,7 @@ def editGoal_view(request, goal_id):
     else:
         form = GoalForm(instance=goal)
 
-    return render(request, 'dashboard/editGoal.html', {
+    return render(request, '../templates/editGoal.html', {
         'form': form,
         'goal': goal,
         'quote_data': quote_data,
@@ -338,7 +338,7 @@ def delete_goal(request, goal_id):
         goal.delete()
         return redirect('goals') 
     else:
-        return render(request, 'dashboard/deleteGoal.html', {
+        return render(request, '../templates/deleteGoal.html', {
             'goal': goal,
             'quote_data': quote_data,
             })
@@ -382,7 +382,7 @@ def generate_pdf_report(request):
             filename += '.pdf'
 
             # Render the PDF with context using the PDF template
-            template = get_template('dashboard/pdf_report_template.html')
+            template = get_template('../templates/pdf_report_template.html')
 
             context = {
                 'activities': activities,
@@ -404,14 +404,14 @@ def generate_pdf_report(request):
         form = DateSelectionForm()
         quote_data = get_quote()
     
-    return render(request, 'dashboard/generateReport.html', {
+    return render(request, '../templates/generateReport.html', {
         'form': form,
         "quote_data": quote_data,
         })
 
 
 def custom_404(request, exception):
-    return render(request, 'dashboard/404.html', status=404)
+    return render(request, '/404.html', status=404)
 
 def mark_goal_completed(request, goal_id):
     if request.method == 'POST':
