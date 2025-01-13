@@ -8,7 +8,6 @@ echo "Building TailwindCSS..."
 cd node
 npm install
 npm run tailwind
-npm run minify
 cd ..
 
 echo "Collecting static files..."
