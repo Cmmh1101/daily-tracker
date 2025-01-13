@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "tailwind": "tailwind build -i ../static/css/tailwind.css -o ../static/css/style.css --watch",
-    "minify": "cleancss ../static/css/styles.css -o ../static/css/style.min.css"
+    "minify": "cleancss ../static/css/style.css -o ../static/css/style.min.css"
   },
   "keywords": [],
   "author": "",
