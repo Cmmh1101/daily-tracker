@@ -7,12 +7,6 @@ pip install -r requirements.txt
 echo "Building TailwindCSS..."
 cd node
 npm install
-
-if [ ! -f ./static/css/styles.css ]; then
-    echo "Error: Input file ./static/css/styles.css does not exist. Please create the file."
-    exit 1
-fi
-
 npm run tailwind
 npm run minify
 cd ..
