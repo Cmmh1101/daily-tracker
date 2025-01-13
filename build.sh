@@ -6,10 +6,10 @@ set -o errexit
 pip install -r requirements.txt
 
 # Build TailwindCSS in the correct location
-cd static_src/src
+cd node
 npm install
-npm run build # This includes the Tailwind build step
-cd ../../
+npm run tailwind # This includes the Tailwind build step
+cd ..
 
 # Collect static files
 python manage.py collectstatic --no-input
