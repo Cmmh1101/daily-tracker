@@ -8,8 +8,8 @@ echo "Building TailwindCSS..."
 cd node
 npm install
 
-if [ ! -f ../static/css/styles.css ]; then
-    echo "Error: Input file ../static/css/styles.css does not exist. Please create the file."
+if [ ! -f ./static/css/styles.css ]; then
+    echo "Error: Input file ./static/css/styles.css does not exist. Please create the file."
     exit 1
 fi
 
