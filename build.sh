@@ -9,13 +9,10 @@ ls -R
 # Install Python dependencies
 pip install -r requirements.txt
 
-cd node
 # Install Node.js dependencies
 npm install
 npm run tailwind
 npm run minify
-
-cd ..
 
 # Collect static files
 python manage.py collectstatic --no-input
