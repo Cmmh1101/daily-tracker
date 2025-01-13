@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "tailwind": "tailwindcss -i ../static/css/styles.css -o $PWD/static/css/dist/styles.css",
-    "minify": "cleancss ../static/css/styles.css -o $PWD/static/css/dist/styles.min.css"
+    "tailwind": "tailwind build -i ../static/css/tailwind.css -o ../static/css/style.css --watch",
+    "minify": "cleancss ../static/css/styles.css -o ../static/css/style.min.css"
   },
   "keywords": [],
   "author": "",

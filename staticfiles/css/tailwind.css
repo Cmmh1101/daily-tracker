@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    --nav-link: #1E4DE8; 
+    --accent-color: #38067a;
+}
+
+a {
+    color: blue;
+}
+
+a:hover, input[type='submit'] {
+    cursor: pointer;
+}
+
+.side-menu-item {
+    color: var(--nav-link);
+}
+.side-menu-item:hover {
+    color: var(--nav-link);
+}
+
+/* Forms */
+form p {
+    display: flex;
+    flex-direction: column;
+    margin: 0 0 1rem;
+  }
+  
+  form label {
+    margin-bottom: 0.5rem;
+  }
+  
+  form p input[type="text"], form p select, form p textarea {
+    border-radius: 5px!important;
+  }
