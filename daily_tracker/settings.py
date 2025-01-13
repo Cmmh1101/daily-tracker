@@ -21,7 +21,7 @@ environ.Env.read_env()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = env('SECRET_KEY')
-ENVIRONMENT = env('ENVIRONMENT', default='development')
+ENVIRONMENT = env('ENVIRONMENT')
 if ENVIRONMENT == 'development':
     DEBUG = True
 ALLOWED_HOSTS = env('ALLOWED_HOSTS').split(",")
@@ -135,10 +135,14 @@ INTERNAL_IPS = [
     "127.0.0.1",
 ]
 
-STATIC_URL = 'static/'
-STATICFILES_DIRS = [BASE_DIR, 'static']
+# Static files (CSS, JavaScript, Images)
+STATIC_URL = '/static/'
+# Directories where static files are located
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',  # Include only the `static` directory
+]
+# Directory where collected static files will be placed
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-
 # if not DEBUG:
 #     STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Collected static files
 #     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
