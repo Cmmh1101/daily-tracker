@@ -8,7 +8,8 @@ pip install -r requirements.txt
 # Build TailwindCSS in the correct location
 cd node
 npm install
-npm run tailwind # This includes the Tailwind build step
+npm run tailwind 
+npm run minify
 cd ..
 
 # Collect static files
