@@ -1,17 +1,22 @@
 #!/usr/bin/env bash
-set -o errexit
+set -o errexit  # Exit on error
 
-echo "Installing Python dependencies..."
+# Debug directory structure
+echo "Current Directory: $(pwd)"
+echo "Directory Contents:"
+ls -R
+
+# Install Python dependencies
 pip install -r requirements.txt
 
-echo "Building TailwindCSS..."
-cd node
+# Install Node.js dependencies
 npm install
-npm run tailwind
-cd ..
 
-echo "Collecting static files..."
+# Build TailwindCSS
+npm run tailwind
+
+# Collect static files
 python manage.py collectstatic --no-input
 
-echo "Applying database migrations..."
+# Apply database migrations
 python manage.py migrate
