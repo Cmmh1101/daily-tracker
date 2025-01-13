@@ -9,7 +9,7 @@ ls -R
 # Install Python dependencies
 pip install -r requirements.txt
 
-cd node
+cd node/
 # Install Node.js dependencies
 npm install
 npm run tailwind
