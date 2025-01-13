@@ -30,6 +30,7 @@ ALLOWED_HOSTS = env('ALLOWED_HOSTS').split(",")
 # Application definition
 
 TAILWIND_APP_NAME = 'node'
+TAILWIND_CSS_PATH = "css/styles.css"
 
 INSTALLED_APPS = [
     'dashboard',
